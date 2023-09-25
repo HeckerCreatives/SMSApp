@@ -1,6 +1,7 @@
 import React from "react";
 import { MDBTable, MDBTableHead, MDBTableBody,MDBBtn, MDBTypography, MDBInput } from 'mdb-react-ui-kit';
 import { IonCardTitle, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonCard, IonCardContent, IonCol, IonGrid, IonRow, IonCardHeader} from '@ionic/react';
+import Breadcrumb from "../../components/breadcrumbs/breadcrumb";
 const StudentProfile: React.FC = () => {
     return(
     <IonPage>
@@ -11,15 +12,7 @@ const StudentProfile: React.FC = () => {
             <IonTitle>Student</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonGrid>
-          <IonRow>
-            <IonCol>
-            <div className="p-2 rounded fw-bold" style={{background: "#D1D4D6", color: "gray"}}>
-            Profile Section
-            </div>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
+        <Breadcrumb text1="Profile Section" text2=""/>
         <IonGrid>
         <IonRow>
          

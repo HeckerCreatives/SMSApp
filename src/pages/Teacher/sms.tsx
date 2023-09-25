@@ -1,6 +1,7 @@
 import React from "react";
 import { MDBBtn } from 'mdb-react-ui-kit';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonCard, IonCardContent, IonCol, IonGrid, IonRow} from '@ionic/react';
+import Breadcrumb from "../../components/breadcrumbs/breadcrumb";
 const TeacherSms: React.FC = () => {
     return(
     <IonPage>
@@ -11,15 +12,7 @@ const TeacherSms: React.FC = () => {
             <IonTitle>Teacher</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonGrid>
-          <IonRow>
-            <IonCol>
-            <div className="p-2 rounded fw-bold" style={{background: "#D1D4D6", color: "gray"}}>
-            Manual SMS
-            </div>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
+        <Breadcrumb text1="Manual SMS" text2=""/>
         <IonGrid>
         <IonRow>
           <IonCol>

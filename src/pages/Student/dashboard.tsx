@@ -12,6 +12,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { MDBTypography } from "mdb-react-ui-kit";
+import Breadcrumb from "../../components/breadcrumbs/breadcrumb";
 const StudentDashboard: React.FC = () => {
   ChartJS.register(
     CategoryScale,
@@ -46,15 +47,7 @@ const StudentDashboard: React.FC = () => {
             <IonTitle>Student</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonGrid>
-          <IonRow>
-            <IonCol>
-            <div className="p-2 rounded fw-bold" style={{background: "#D1D4D6", color: "gray"}}>
-            Dashboard
-            </div>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
+        <Breadcrumb text1="Dashboard" text2=""/>
         <IonGrid>
         <IonRow>
           <IonCol>

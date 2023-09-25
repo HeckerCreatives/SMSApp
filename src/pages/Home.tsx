@@ -29,8 +29,8 @@ const Dashboard: React.FC = () => {
     window.innerWidth > 768 ? false : true
   );
 
-  const role = "Administrator"
-  // const role = "Teacher"
+  // const role = "Administrator"
+  const role = "Teacher"
   // const role = "Student"
   let link;
   switch(role){
