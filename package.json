@@ -9,9 +9,12 @@
     "preview": "vite preview",
     "test.e2e": "cypress run",
     "test.unit": "vitest",
-    "lint": "eslint"
+    "lint": "eslint",
+    "electron:mac": "electron-packager ./electron SMSApp --overwrite --platform=darwin --arch=x64 --prune=true --out=release-builds",
+    "electron:win": "electron-packager ./electron SMSApp --overwrite --asar=true --platform=win32 --arch=x64 --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName='SMS App'"
   },
   "dependencies": {
+    "@capacitor-community/electron": "^5.0.1",
     "@capacitor/app": "5.0.6",
     "@capacitor/core": "5.3.0",
     "@capacitor/haptics": "5.0.6",
@@ -23,8 +26,11 @@
     "@types/react-router": "^5.1.20",
     "@types/react-router-dom": "^5.3.3",
     "chart.js": "^3.9.1",
+    "electron": "^26.2.2",
+    "electron-packager": "^17.1.2",
     "ionicons": "^7.0.0",
     "mdb-react-ui-kit": "^6.3.0",
+    "ngx-electron": "^2.2.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^4.3.1",
     "react-dom": "^18.2.0",

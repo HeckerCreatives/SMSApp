@@ -20,6 +20,11 @@
 /.vscode/*
 !/.vscode/extensions.json
 .idea
+*.zip
+*.rar
+/electron
+/build
+/release-builds
 
 npm-debug.log*
 yarn-debug.log*
