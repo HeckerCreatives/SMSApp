@@ -12,11 +12,10 @@ import {
   MDBTypography,
   MDBCardText,
 } from 'mdb-react-ui-kit';
-// import { env } from "process";
 import "./index.css"
 import { useIonToast } from '@ionic/react';
 interface ContainerProps { data: any, basicModal: boolean, onbasicModal: any }
-const ViewTeacher: React.FC<ContainerProps> = (props) => {
+const ViewStudent: React.FC<ContainerProps> = (props) => {
     const [present] = useIonToast();
     const { basicModal, data } = props
     const [openmodal, setopenmodal] = useState(false)
@@ -38,14 +37,14 @@ const ViewTeacher: React.FC<ContainerProps> = (props) => {
           
           <MDBModalContent>
             <MDBModalHeader>
-              <MDBModalTitle>Teacher Details</MDBModalTitle>
+              <MDBModalTitle>Student Details</MDBModalTitle>
               {/* <MDBBtn className='btn-close' color='none' onClick={toggleShow}></MDBBtn> */}
             </MDBModalHeader>
             <MDBModalBody>
               <MDBCardText>Username:</MDBCardText>
-              <MDBInput name="username" readOnly value={data?.userdetail?.username}/>
+              <MDBInput name="username" readOnly value={data?.userdetails?.username}/>
               <MDBCardText>Password:</MDBCardText>
-              <MDBInput name="middlename" readOnly value={data?.userdetail?.password}/>
+              <MDBInput name="middlename" readOnly value={data?.userdetails?.password}/>
               <MDBCardText>First Name:</MDBCardText>
               <MDBInput name="firstname" readOnly value={data?.firstname}/>
               <MDBCardText>Middle Name:</MDBCardText>
@@ -56,6 +55,14 @@ const ViewTeacher: React.FC<ContainerProps> = (props) => {
               <MDBInput name="contact" readOnly value={data?.contact}/>
               <MDBCardText>Adress:</MDBCardText>
               <MDBInput name="address" readOnly value={data?.address}/>
+              <MDBCardText>Mother:</MDBCardText>
+              <MDBInput name="mother" readOnly value={data?.mother}/>
+              <MDBCardText>Father:</MDBCardText>
+              <MDBInput name="father" readOnly value={data?.father}/>
+              <MDBCardText>Year:</MDBCardText>
+              <MDBInput name="year" readOnly value={data?.yearandsection?.year}/>
+              <MDBCardText>Section:</MDBCardText>
+              <MDBInput name="section" readOnly value={data?.yearandsection?.section}/>
             </MDBModalBody>
 
             <MDBModalFooter>
@@ -74,4 +81,4 @@ const ViewTeacher: React.FC<ContainerProps> = (props) => {
     )
 }
 
-export default ViewTeacher;
+export default ViewStudent;

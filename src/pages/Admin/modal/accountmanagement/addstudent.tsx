@@ -15,8 +15,10 @@ import {
 import "./index.css"
 import { useIonToast } from '@ionic/react';
 interface ContainerProps { basicModal: boolean, onbasicModal: any }
-const AddTeacher: React.FC<ContainerProps> = (props) => {
+const AddStudent: React.FC<ContainerProps> = (props) => {
     const [present] = useIonToast();
+    const [yands, setYandS] = useState([])
+    const [selectyands, setSelectyands] = useState("")
     const [openmodal, setopenmodal] = useState(false)
     const { basicModal } = props
 
@@ -28,10 +30,28 @@ const AddTeacher: React.FC<ContainerProps> = (props) => {
       props.onbasicModal(false)
     }
 
-    const addteacher = (e: any) => {
+    const handleSelect = (e: any) => {
+        const selectedValue = e.target.value
+        if(selectedValue !== ""){
+            setSelectyands(selectedValue)
+        } else {
+            setSelectyands("")
+        }
+        
+    }
+
+    useEffect(() => {
+        fetch(`${import.meta.env.VITE_ENDPOINT_URL}yearandsection/find`)
+        .then(result => result.json())
+        .then(data => {
+          setYandS(data.data)
+        })
+    },[])
+
+    const addstudent = (e: any) => {
       e.preventDefault();
-      const { firstname, middlename, lastname, contact, address, username, password } = e.target;
-      fetch(`${import.meta.env.VITE_ENDPOINT_URL}teacher/create`, {
+      const { firstname, middlename, lastname, contact, address, username, password, mother, father } = e.target;
+      fetch(`${import.meta.env.VITE_ENDPOINT_URL}student/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -43,6 +63,9 @@ const AddTeacher: React.FC<ContainerProps> = (props) => {
             lastname: lastname.value,
             contact: contact.value,
             address: address.value,
+            mother: mother.value,
+            father: father.value,
+            yearandsection: selectyands,
             username: username.value,
             password: password.value,
           }
@@ -75,10 +98,10 @@ const AddTeacher: React.FC<ContainerProps> = (props) => {
     
     <MDBModal show={openmodal}  tabIndex='-1' backdrop={false} closeOnEsc={false} staticBackdrop>
         <MDBModalDialog>
-          <form autoComplete="off" onSubmit={addteacher}>
+          <form autoComplete="off" onSubmit={addstudent}>
           <MDBModalContent>
             <MDBModalHeader>
-              <MDBModalTitle>Add Teacher</MDBModalTitle>
+              <MDBModalTitle>Add Student</MDBModalTitle>
               {/* <MDBBtn className='btn-close' color='none' onClick={toggleShow}></MDBBtn> */}
             </MDBModalHeader>
             <MDBModalBody>
@@ -96,13 +119,33 @@ const AddTeacher: React.FC<ContainerProps> = (props) => {
               <MDBInput name="contact"/>
               <MDBCardText>Adress:</MDBCardText>
               <MDBInput name="address"/>
+              <MDBCardText>Mother:</MDBCardText>
+              <MDBInput name="mother"/>
+              <MDBCardText>Father:</MDBCardText>
+              <MDBInput name="father"/>
+              <MDBCardText>Year And Section:</MDBCardText>
+              {yands.length !== 0 ? 
+              
+              <select onChange={(e)=> handleSelect(e)}>
+                <option value="">Please Select</option>
+                {yands.map((data: any,i) =>(
+                    <option key={`yands-${i}`} value={data._id}>{data.year + " - " + data.section}</option>
+                ))}
+                
+              </select>
+             
+              :
+              <MDBCardText>No Data</MDBCardText>
+              }
+              
+
             </MDBModalBody>
 
             <MDBModalFooter>
               <MDBBtn type="button" color='secondary' onClick={handleChange}>
                 Close
               </MDBBtn>
-              <MDBBtn type="submit">Save teacher</MDBBtn>
+              <MDBBtn type="submit">Save Student</MDBBtn>
             </MDBModalFooter>
           </MDBModalContent>
           </form>
@@ -111,10 +154,9 @@ const AddTeacher: React.FC<ContainerProps> = (props) => {
       <div
         className={ openmodal ? "custom-backdrop1" : ""}
         onClick={() => handleChange}
-        // style={{visibility: openmodal ? "hidden" : "visible"}}
       />
     </>
     )
 }
 
-export default AddTeacher;
+export default AddStudent;

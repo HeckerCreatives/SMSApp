@@ -4,17 +4,10 @@ import {
   MDBTableHead, 
   MDBTableBody, 
   MDBBtn, 
-  MDBTypography, 
   MDBInput, 
   MDBIcon,
-  MDBModal,
-  MDBModalDialog,
-  MDBModalContent,
-  MDBModalHeader,
-  MDBModalTitle,
-  MDBModalBody,
-  MDBModalFooter,
 } from 'mdb-react-ui-kit';
+import { useIonToast } from '@ionic/react';
 import { IonCardTitle, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonCard, IonCardContent, IonCol, IonGrid, IonRow, IonCardHeader} from '@ionic/react';
 import Breadcrumb from "../../components/breadcrumbs/breadcrumb";
 import AddTeacher from "./modal/accountmanagement/addteacher";
@@ -26,6 +19,7 @@ const AdminAccountManagementTeacher: React.FC = () => {
     const [viewModal, setViewModal] = useState(false);
     const [editModal, setEditModal] = useState(false);
     const [rowdata, setRowdata] = useState([]);
+    const [present] = useIonToast();
     const toggleShow = (open: boolean) => setBasicModal(open);
     const toggleShow1 = (open: boolean, data: any) => {
       setViewModal(open)
@@ -40,12 +34,38 @@ const AdminAccountManagementTeacher: React.FC = () => {
       .then(result => result.json())
       .then(data => {
         setTeacher(data.data)
-        console.log(data)
+        
       })
-      // console.log(teacher)
     },[])
     
-   
+    const ban = (id: any) => {
+      fetch(`${import.meta.env.VITE_ENDPOINT_URL}teacher/ban/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(result => result.json())
+      .then(data => {
+        if(data.message === "success"){
+          present({
+            message: "Teacher Banned",
+            duration: 5000,
+            position: "bottom",
+          }).then(() => {
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
+          })
+        } else {
+          present({
+            message: data.message,
+            duration: 5000,
+            position: "bottom",
+          });
+        }
+      })
+    }
 
     return(
     <IonPage>
@@ -94,7 +114,7 @@ const AdminAccountManagementTeacher: React.FC = () => {
                     </MDBTableHead>
                     <MDBTableBody>
                       <>
-                      { teacher ?
+                      { teacher.length !== 0 ?
                       teacher.map((data: any,i) => (
                       <tr key={`teacher-${i}`}>
                       <td>{data.firstname + " " + data.middlename + " " + data.lastname}</td>
@@ -103,18 +123,24 @@ const AdminAccountManagementTeacher: React.FC = () => {
                       <td>{new Date(data.createdAt).toLocaleString()}</td>
                       <td>
                           <MDBBtn 
+                          block
                           onClick={() => toggleShow1(true,data)} 
                           className="mx-1">
                           View
                           </MDBBtn>
 
                           <MDBBtn 
+                          block
                           onClick={() => toggleShow2(true,data)} 
                           className="mx-1">
                           Edit
                           </MDBBtn>
 
-                          <MDBBtn className="mx-1">
+                          <MDBBtn 
+                          block
+                          className="mx-1"
+                          onClick={() => ban(data._id)}
+                          >
                           Ban
                           </MDBBtn>
                       </td>
@@ -122,7 +148,9 @@ const AdminAccountManagementTeacher: React.FC = () => {
                       )) 
                       
                       :
-                      <span> No Data </span>
+                      <tr>
+                      <td colSpan={5}> No Data </td>
+                      </tr>
                       }
                       </>  
                         

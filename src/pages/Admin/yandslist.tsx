@@ -1,8 +1,57 @@
-import React from "react";
+import React , {useState, useEffect} from "react";
 import { MDBTable, MDBTableHead, MDBTableBody,MDBBtn, MDBTypography, MDBInput,MDBIcon } from 'mdb-react-ui-kit';
-import { IonCardTitle, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonCard, IonCardContent, IonCol, IonGrid, IonRow, IonCardHeader} from '@ionic/react';
+import { IonCardTitle, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonCard, IonCardContent, IonCol, IonGrid, IonRow, IonCardHeader, useIonToast} from '@ionic/react';
 import Breadcrumb from "../../components/breadcrumbs/breadcrumb";
+import AddList from "./modal/yearandsection/addlistmodal";
+import EditList from "./modal/yearandsection/editlistmodal";
 const AdminYearAndSectionList: React.FC = () => {
+    const [list, setList] = useState([])
+    const [basicModal, setBasicModal] = useState(false);
+    const [editModal, setEditModal] = useState(false);
+    const [rowdata, setRowdata] = useState([]);
+    const [present] = useIonToast();
+    const toggleShow = (open: boolean) => setBasicModal(open);
+    const toggleShow1 = (open: boolean, data: any) => {
+      setEditModal(open)
+      setRowdata(data)
+    }
+    useEffect(() => {
+      fetch(`${import.meta.env.VITE_ENDPOINT_URL}yearandsection/find`)
+      .then(result => result.json())
+      .then(data => {
+        setList(data.data)
+      })
+    },[])
+    
+    const destroy = (id: any) => {
+      fetch(`${import.meta.env.VITE_ENDPOINT_URL}yearandsection/destroy/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(result => result.json())
+      .then(data => {
+        if(data.message === "success"){
+          present({
+            message: "Deleted Successfully",
+            duration: 5000,
+            position: "bottom",
+          }).then(() => {
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
+          })
+        } else {
+          present({
+            message: data.message,
+            duration: 5000,
+            position: "bottom",
+          });
+        }
+      })
+    }
+
     return(
     <IonPage>
       <IonContent>
@@ -29,7 +78,7 @@ const AdminYearAndSectionList: React.FC = () => {
                 
             </div>
             <div className="d-flex align-items-center justify-content-center">
-            <MDBBtn className="m-2">ADD</MDBBtn>
+            <MDBBtn onClick={() => toggleShow(true)} className="m-2">ADD</MDBBtn>
             </div>
             
             </div>
@@ -45,19 +94,27 @@ const AdminYearAndSectionList: React.FC = () => {
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
-                        <tr>
-                        <th scope='row'>1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
+                      { list.length !== 0 ? 
+                      list.map((lists: any,i) => (
+                      <tr key={`list-${i}`}>
+                        <td>{lists.year}</td>
+                        <td>{lists.section}</td>
+                        <td>{new Date(lists.createdAt).toLocaleString()}</td>
                         <td>
-                            <MDBBtn className="mx-1">
+                            <MDBBtn onClick={() => toggleShow1(true,lists)} block className="mx-1">
                                 Edit
                             </MDBBtn>
-                            <MDBBtn>
+                            <MDBBtn onClick={() => destroy(lists._id)} block className="mx-1">
                                 Delete
                             </MDBBtn>
                         </td>
-                        </tr>
+                      </tr>
+                      ))
+                      :
+                      <tr>
+                      <td colSpan={4}> No Data </td>
+                      </tr>
+                      }
                         
                     </MDBTableBody>
                 </MDBTable>
@@ -71,6 +128,8 @@ const AdminYearAndSectionList: React.FC = () => {
         
 
       </IonContent>
+      <AddList basicModal={basicModal} onbasicModal={toggleShow}/>
+      <EditList data={rowdata} basicModal={editModal} onbasicModal={toggleShow1}/>
     </IonPage>
     )
 }

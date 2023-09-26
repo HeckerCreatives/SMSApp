@@ -16,7 +16,7 @@ import {
 import { useIonToast } from '@ionic/react';
 import "./index.css"
 interface ContainerProps { data: any, basicModal: boolean, onbasicModal: any }
-const EditTeacher: React.FC<ContainerProps> = ({data , basicModal, onbasicModal}) => {
+const EditList: React.FC<ContainerProps> = ({data , basicModal, onbasicModal}) => {
     const [present] = useIonToast();
     const [openmodal, setopenmodal] = useState(false)
 
@@ -28,24 +28,18 @@ const EditTeacher: React.FC<ContainerProps> = ({data , basicModal, onbasicModal}
     onbasicModal(false)
     }
 
-    const editteacher = (e: any) => {
+    const editlist = (e: any) => {
         e.preventDefault();
-        const { firstname, middlename, lastname, contact, address, password } = e.target;
-        fetch(`${import.meta.env.VITE_ENDPOINT_URL}teacher/update/${data._id}`, {
+        const { year, section } = e.target;
+        fetch(`${import.meta.env.VITE_ENDPOINT_URL}yearandsection/update/${data._id}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
           },
           body: JSON.stringify(
             {
-              firstname: firstname.value ? firstname.value : data?.firstname,
-              middlename: middlename.value ? middlename.value : data?.middlename,
-              lastname: lastname.value ? lastname.value : data?.lastname,
-              contact: contact.value ?  contact.value : data?.contact,
-              address: address.value ?  address.value : data?.address,
-              // for login
-              loginid: data?.userdetail?._id,
-              password: password.value ?  password.value : data?.userdetail?.password
+                year: year.value ? year.value : data?.year,
+                section: section.value ? section.value : data?.section,
             }
           )
         })
@@ -76,34 +70,24 @@ const EditTeacher: React.FC<ContainerProps> = ({data , basicModal, onbasicModal}
     
     <MDBModal show={openmodal} tabIndex='-1' backdrop={false} closeOnEsc={false} staticBackdrop>
         <MDBModalDialog>
-        <form autoComplete="off" onSubmit={editteacher}>
+        <form autoComplete="off" onSubmit={editlist}>
           <MDBModalContent>
             <MDBModalHeader>
-              <MDBModalTitle>Edit Teacher Details</MDBModalTitle>
+              <MDBModalTitle>Edit Year and Section List Details</MDBModalTitle>
               {/* <MDBBtn className='btn-close' color='none' onClick={toggleShow}></MDBBtn> */}
             </MDBModalHeader>
             <MDBModalBody>
-              <MDBCardText>Username:</MDBCardText>
-              <MDBInput name="username" label={data?.userdetail?.username} readOnly/>
-              <MDBCardText>Password:</MDBCardText>
-              <MDBInput name="password" type="password" label={data?.userdetail?.password}/>
-              <MDBCardText>First Name:</MDBCardText>
-              <MDBInput name="firstname"  type="text" label={data?.firstname} />
-              <MDBCardText>Middle Name:</MDBCardText>
-              <MDBInput name="middlename"  type="text" label={data?.middlename} />
-              <MDBCardText>Last Name:</MDBCardText>
-              <MDBInput name="lastname"  type="text" label={data?.lastname} />
-              <MDBCardText>Contact:</MDBCardText>
-              <MDBInput name="contact"  type="text" label={data?.contact} />
-              <MDBCardText>Adress:</MDBCardText>
-              <MDBInput name="address"  type="text" label={data?.address} />
+            <MDBCardText>Year:</MDBCardText>
+              <MDBInput name="year" label={data?.year}/>
+              <MDBCardText>Section:</MDBCardText>
+              <MDBInput name="section" label={data?.section}/>
             </MDBModalBody>
 
             <MDBModalFooter>
               <MDBBtn type="button" color='secondary' onClick={handleChange}>
                 Close
               </MDBBtn>
-              <MDBBtn type="submit">Save teacher</MDBBtn>
+              <MDBBtn type="submit">Save List</MDBBtn>
             </MDBModalFooter>
           </MDBModalContent>
           </form>
@@ -117,4 +101,4 @@ const EditTeacher: React.FC<ContainerProps> = ({data , basicModal, onbasicModal}
     )
 }
 
-export default EditTeacher;
+export default EditList;

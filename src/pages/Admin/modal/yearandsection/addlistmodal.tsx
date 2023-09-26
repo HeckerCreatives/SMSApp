@@ -15,7 +15,7 @@ import {
 import "./index.css"
 import { useIonToast } from '@ionic/react';
 interface ContainerProps { basicModal: boolean, onbasicModal: any }
-const AddTeacher: React.FC<ContainerProps> = (props) => {
+const AddList: React.FC<ContainerProps> = (props) => {
     const [present] = useIonToast();
     const [openmodal, setopenmodal] = useState(false)
     const { basicModal } = props
@@ -28,23 +28,18 @@ const AddTeacher: React.FC<ContainerProps> = (props) => {
       props.onbasicModal(false)
     }
 
-    const addteacher = (e: any) => {
+    const addlist = (e: any) => {
       e.preventDefault();
-      const { firstname, middlename, lastname, contact, address, username, password } = e.target;
-      fetch(`${import.meta.env.VITE_ENDPOINT_URL}teacher/create`, {
+      const { year, section } = e.target;
+      fetch(`${import.meta.env.VITE_ENDPOINT_URL}yearandsection/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(
           {
-            firstname: firstname.value,
-            middlename: middlename.value,
-            lastname: lastname.value,
-            contact: contact.value,
-            address: address.value,
-            username: username.value,
-            password: password.value,
+            year: year.value,
+            section: section.value,
           }
         )
       })
@@ -62,7 +57,7 @@ const AddTeacher: React.FC<ContainerProps> = (props) => {
           })
         } else {
           present({
-            message: data.data,
+            message: data.message,
             duration: 5000,
             position: "bottom",
           });
@@ -75,34 +70,24 @@ const AddTeacher: React.FC<ContainerProps> = (props) => {
     
     <MDBModal show={openmodal}  tabIndex='-1' backdrop={false} closeOnEsc={false} staticBackdrop>
         <MDBModalDialog>
-          <form autoComplete="off" onSubmit={addteacher}>
+          <form autoComplete="off" onSubmit={addlist}>
           <MDBModalContent>
             <MDBModalHeader>
-              <MDBModalTitle>Add Teacher</MDBModalTitle>
+              <MDBModalTitle>Add Year And Section List</MDBModalTitle>
               {/* <MDBBtn className='btn-close' color='none' onClick={toggleShow}></MDBBtn> */}
             </MDBModalHeader>
             <MDBModalBody>
-              <MDBCardText>Username:</MDBCardText>
-              <MDBInput name="username"/>
-              <MDBCardText>Password:</MDBCardText>
-              <MDBInput name="password" type="password"/>
-              <MDBCardText>First Name:</MDBCardText>
-              <MDBInput name="firstname"/>
-              <MDBCardText>Middle Name:</MDBCardText>
-              <MDBInput name="middlename"/>
-              <MDBCardText>Last Name:</MDBCardText>
-              <MDBInput name="lastname"/>
-              <MDBCardText>Contact:</MDBCardText>
-              <MDBInput name="contact"/>
-              <MDBCardText>Adress:</MDBCardText>
-              <MDBInput name="address"/>
+              <MDBCardText>Year:</MDBCardText>
+              <MDBInput name="year"/>
+              <MDBCardText>Section:</MDBCardText>
+              <MDBInput name="section"/>
             </MDBModalBody>
 
             <MDBModalFooter>
               <MDBBtn type="button" color='secondary' onClick={handleChange}>
                 Close
               </MDBBtn>
-              <MDBBtn type="submit">Save teacher</MDBBtn>
+              <MDBBtn type="submit">Save List</MDBBtn>
             </MDBModalFooter>
           </MDBModalContent>
           </form>
@@ -111,10 +96,9 @@ const AddTeacher: React.FC<ContainerProps> = (props) => {
       <div
         className={ openmodal ? "custom-backdrop1" : ""}
         onClick={() => handleChange}
-        // style={{visibility: openmodal ? "hidden" : "visible"}}
       />
     </>
     )
 }
 
-export default AddTeacher;
+export default AddList;
