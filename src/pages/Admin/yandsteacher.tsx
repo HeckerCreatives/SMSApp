@@ -1,8 +1,30 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { MDBTable, MDBTableHead, MDBTableBody,MDBBtn, MDBTypography, MDBInput } from 'mdb-react-ui-kit';
-import { IonCardTitle, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonCard, IonCardContent, IonCol, IonGrid, IonRow, IonCardHeader} from '@ionic/react';
+import { IonCardTitle, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonCard, IonCardContent, IonCol, IonGrid, IonRow, IonCardHeader, useIonToast} from '@ionic/react';
 import Breadcrumb from "../../components/breadcrumbs/breadcrumb";
+import AssignAdviser from "./modal/yearandsection/assignteacher";
+import ReassignAdviser from "./modal/yearandsection/reassignteacher";
 const AdminYearAndSectionAssignedTeacher: React.FC = () => {
+  const [adviser, setAdviser] = useState([])
+  const [basicModal, setBasicModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
+  const [rowdata, setRowdata] = useState([]);
+  const [present] = useIonToast();
+  const toggleShow = (open: boolean) => setBasicModal(open);
+
+  const toggleShow1 = (open: boolean, data: any) => {
+    setEditModal(open)
+    setRowdata(data)
+  }
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_ENDPOINT_URL}classroom/find`)
+    .then(result => result.json())
+    .then(data => {
+      setAdviser(data.data)
+    })
+  },[])
+
     return(
     <IonPage>
       <IonContent>
@@ -27,9 +49,9 @@ const AdminYearAndSectionAssignedTeacher: React.FC = () => {
                 &nbsp; Filter: &nbsp;
                 <MDBInput/>
             </div>
-            {/* <div className="d-flex align-items-center justify-content-center">
-            <MDBBtn className="m-2">ADD</MDBBtn>
-            </div> */}
+            <div className="d-flex align-items-center justify-content-center">
+            <MDBBtn onClick={() => toggleShow(true)} className="m-2">ASSIGN</MDBBtn>
+            </div>
             
             </div>
             
@@ -45,20 +67,26 @@ const AdminYearAndSectionAssignedTeacher: React.FC = () => {
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
-                        <tr>
-                        <td>Mark</td>
-                        <td>Mark</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
+                      { adviser.length !== 0 ? 
+                      adviser.map((data: any,i) => (
+                      <tr key={`adviser-${i}`}>
+                        <td>{data.adviser.firstname + " " + data.adviser.middlename + " " + data.adviser.lastname}</td>
+                        <td>{data.yearandsection.year}</td>
+                        <td>{data.yearandsection.section}</td>
+                        <td>{new Date(data.createdAt).toLocaleString()}</td>
                         <td>
-                            <MDBBtn className="mx-1">
-                                Assign
-                            </MDBBtn>
-                            <MDBBtn>
+                            <MDBBtn onClick={() => toggleShow1(true,data)}>
                                 Reassign
                             </MDBBtn>
                         </td>
-                        </tr>
+                      </tr>
+                      ))
+                      :
+                      <tr>
+                        <td colSpan={5}>No Data</td>
+                      </tr>
+                      }
+                        
                         
                     </MDBTableBody>
                 </MDBTable>
@@ -69,9 +97,9 @@ const AdminYearAndSectionAssignedTeacher: React.FC = () => {
         </IonRow>
         </IonGrid>
 
-        
-
       </IonContent>
+      <AssignAdviser basicModal={basicModal} onbasicModal={toggleShow}/>
+      <ReassignAdviser data={rowdata} basicModal={editModal} onbasicModal={toggleShow1}/>
     </IonPage>
     )
 }

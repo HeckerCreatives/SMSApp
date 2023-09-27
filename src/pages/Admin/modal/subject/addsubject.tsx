@@ -15,11 +15,11 @@ import {
 import "./index.css"
 import { useIonToast } from '@ionic/react';
 interface ContainerProps { basicModal: boolean, onbasicModal: any }
-const AddStudent: React.FC<ContainerProps> = (props) => {
+const AddSubject: React.FC<ContainerProps> = (props) => {
     const [present] = useIonToast();
+    const [openmodal, setopenmodal] = useState(false)
     const [yands, setYandS] = useState([])
     const [selectyands, setSelectyands] = useState("")
-    const [openmodal, setopenmodal] = useState(false)
     const { basicModal } = props
 
     useEffect(() => {
@@ -48,26 +48,18 @@ const AddStudent: React.FC<ContainerProps> = (props) => {
         })
     },[])
 
-    const addstudent = (e: any) => {
+    const addlist = (e: any) => {
       e.preventDefault();
-      const { firstname, middlename, lastname, contact, address, username, password, mother, father } = e.target;
-      fetch(`${import.meta.env.VITE_ENDPOINT_URL}student/create`, {
+      const { subject } = e.target;
+      fetch(`${import.meta.env.VITE_ENDPOINT_URL}subject/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(
           {
-            firstname: firstname.value,
-            middlename: middlename.value,
-            lastname: lastname.value,
-            contact: contact.value,
-            address: address.value,
-            mother: mother.value,
-            father: father.value,
+            subjectname: subject.value,
             yearandsection: selectyands,
-            username: username.value,
-            password: password.value,
           }
         )
       })
@@ -85,7 +77,7 @@ const AddStudent: React.FC<ContainerProps> = (props) => {
           })
         } else {
           present({
-            message: data.data,
+            message: data.message,
             duration: 5000,
             position: "bottom",
           });
@@ -98,33 +90,16 @@ const AddStudent: React.FC<ContainerProps> = (props) => {
     
     <MDBModal show={openmodal}  tabIndex='-1' backdrop={false} closeOnEsc={false} staticBackdrop>
         <MDBModalDialog>
-          <form autoComplete="off" onSubmit={addstudent}>
+          <form autoComplete="off" onSubmit={addlist}>
           <MDBModalContent>
             <MDBModalHeader>
-              <MDBModalTitle>Add Student</MDBModalTitle>
+              <MDBModalTitle>Add Subject List</MDBModalTitle>
               {/* <MDBBtn className='btn-close' color='none' onClick={toggleShow}></MDBBtn> */}
             </MDBModalHeader>
             <MDBModalBody>
-              <MDBCardText>Username:</MDBCardText>
-              <MDBInput name="username"/>
-              <MDBCardText>Password:</MDBCardText>
-              <MDBInput name="password" type="password"/>
-              <MDBCardText>First Name:</MDBCardText>
-              <MDBInput name="firstname"/>
-              <MDBCardText>Middle Name:</MDBCardText>
-              <MDBInput name="middlename"/>
-              <MDBCardText>Last Name:</MDBCardText>
-              <MDBInput name="lastname"/>
-              <MDBCardText>Contact:</MDBCardText>
-              <MDBInput name="contact"/>
-              <MDBCardText>Adress:</MDBCardText>
-              <MDBInput name="address"/>
-              <MDBCardText>Mother:</MDBCardText>
-              <MDBInput name="mother"/>
-              <MDBCardText>Father:</MDBCardText>
-              <MDBInput name="father"/>
-              <MDBCardText>Year And Section:</MDBCardText>
-              {yands.length !== 0 ? 
+              <MDBCardText>Subject Name:</MDBCardText>
+              <MDBInput name="subject"/>
+              <MDBCardText>Year and Section:</MDBCardText>
               
               <select onChange={(e)=> handleSelect(e)} className="bg-transparent text-dark p-1">
                 <option disabled selected>Please Select</option>
@@ -133,19 +108,13 @@ const AddStudent: React.FC<ContainerProps> = (props) => {
                 ))}
                 
               </select>
-             
-              :
-              <MDBCardText>No Data</MDBCardText>
-              }
-              
-
             </MDBModalBody>
 
             <MDBModalFooter>
               <MDBBtn type="button" color='secondary' onClick={handleChange}>
                 Close
               </MDBBtn>
-              <MDBBtn type="submit">Save Student</MDBBtn>
+              <MDBBtn type="submit">Save</MDBBtn>
             </MDBModalFooter>
           </MDBModalContent>
           </form>
@@ -159,4 +128,4 @@ const AddStudent: React.FC<ContainerProps> = (props) => {
     )
 }
 
-export default AddStudent;
+export default AddSubject;

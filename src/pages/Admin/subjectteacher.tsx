@@ -1,8 +1,30 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { MDBTable, MDBTableHead, MDBTableBody,MDBBtn, MDBTypography, MDBInput, MDBIcon } from 'mdb-react-ui-kit';
-import { IonCardTitle, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonCard, IonCardContent, IonCol, IonGrid, IonRow, IonCardHeader} from '@ionic/react';
+import { IonCardTitle, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonCard, IonCardContent, IonCol, IonGrid, IonRow, IonCardHeader, useIonToast} from '@ionic/react';
 import Breadcrumb from "../../components/breadcrumbs/breadcrumb";
+import AssignSubjectTeacher from "./modal/subject/assignteacher";
 const AdminSubjectTeacher: React.FC = () => {
+  const [subject, setSubject] = useState([])
+  // const [basicModal, setBasicModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
+  const [rowdata, setRowdata] = useState([]);
+  const [present] = useIonToast();
+  // const toggleShow = (open: boolean) => setBasicModal(open);
+
+  
+
+  const toggleShow = (open: boolean, data: any) => {
+    setEditModal(open)
+    setRowdata(data)
+  }
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_ENDPOINT_URL}subject/find`)
+    .then(result => result.json())
+    .then(data => {
+      setSubject(data.data)
+    })
+  },[])
     return(
     <IonPage>
       <IonContent>
@@ -43,25 +65,36 @@ const AdminSubjectTeacher: React.FC = () => {
                         <th scope='col'>Teacher</th>
                         <th scope='col'>Year</th>
                         <th scope='col'>Section</th>
+                        <th scope='col'>Subject</th>
                         <th scope='col'>Date Created</th>
                         <th scope='col'>Action</th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
-                        <tr>
-                        <td>Mark</td>
-                        <td>Mark</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
+                      {subject.length !== 0 ? 
+                      subject.map((data: any,i) => (
+                      <tr>
+                        <td>{ data.teacher ? data.teacher.firstname + " " + data.teacher.middlename + " " + data.teacher.lastname : "Please Assign a Teacher"}</td>
+                        <td>{data.yearandsection.year}</td>
+                        <td>{data.yearandsection.section}</td>
+                        <td>{data.subjectname}</td>
+                        <td>{new Date(data.createdAt).toLocaleString()}</td>
                         <td>
-                            <MDBBtn className="mx-1">
+                            <MDBBtn onClick={() => toggleShow(true,data)} block disabled={data.teacher ? true : false}>
                                 Assign
                             </MDBBtn>
-                            <MDBBtn>
+                            <MDBBtn onClick={() => toggleShow(true,data)} block disabled={data.teacher ? false : true}>
                                 Reassign
                             </MDBBtn>
                         </td>
                         </tr>
+                      ))
+                      :
+                      <tr>
+                        <td colSpan={6}>No Data</td>
+                      </tr>
+                      }
+                        
                         
                     </MDBTableBody>
                 </MDBTable>
@@ -71,10 +104,8 @@ const AdminSubjectTeacher: React.FC = () => {
           </IonCol>
         </IonRow>
         </IonGrid>
-
-        
-
       </IonContent>
+      <AssignSubjectTeacher data={rowdata} basicModal={editModal} onbasicModal={toggleShow}/>
     </IonPage>
     )
 }
