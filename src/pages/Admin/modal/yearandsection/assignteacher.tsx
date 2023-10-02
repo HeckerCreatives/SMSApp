@@ -28,7 +28,7 @@ const AssignAdviser: React.FC<ContainerProps> = (props) => {
     
     useEffect(() => {
       setopenmodal(basicModal)
-    },[basicModal])
+    },[basicModal,selectedYear,selectyands])
 
     const handleChange = () => {
       props.onbasicModal(false)
@@ -38,11 +38,12 @@ const AssignAdviser: React.FC<ContainerProps> = (props) => {
     const handleSelectYear = (e: any) => {
       const selectedYear = e.target.value;
       setSelectedYear(selectedYear);
-
+      setSelectyands("")
       // Filter sections based on the selected year
       const sectionsForSelectedYear = yands.filter((data: any) => data.year === selectedYear);
       setFilteredSections(sectionsForSelectedYear);
     };
+
     // Function to handle section selection
     const handleSelectSection = (e: any) => {
       // Handle section selection here
@@ -51,15 +52,6 @@ const AssignAdviser: React.FC<ContainerProps> = (props) => {
       setSelectyands(selectedSectionId)
       // Do something with selectedSectionId
     };
-    // const handleSelect = (e: any) => {
-    //     const selectedValue = e.target.value
-    //     if(selectedValue !== ""){
-    //         setSelectyands(selectedValue)
-    //     } else {
-    //         setSelectyands("")
-    //     }
-        
-    // }
 
     const handleSelectAdviser = (e: any) => {
         const selectedValue = e.target.value
@@ -77,7 +69,6 @@ const AssignAdviser: React.FC<ContainerProps> = (props) => {
         .then(data => {
           setYandS(data.data)
         })
-        console.log(selectyands)
     },[selectyands])
 
     useEffect(() => {
@@ -139,28 +130,14 @@ const AssignAdviser: React.FC<ContainerProps> = (props) => {
             <MDBModalBody>
               <MDBCardText>Adviser:</MDBCardText>
               <select onChange={(e)=> handleSelectAdviser(e)} className="bg-transparent text-dark p-1">
-                <option disabled selected>Please Select</option>
+                <option selected>Please Select</option>
                 {teachers.map((data: any,i) =>(
                     <option key={`teacher-${i}`} value={data._id}>{data.firstname + " " + data.middlename + " " + data.lastname}</option>
                 ))}
               </select>
-              {/* <MDBCardText>Year:</MDBCardText>
-              <select onChange={(e)=> handleSelect(e)} className="bg-transparent text-dark p-1">
-                <option disabled selected>Please Select</option>
-                {yands.map((data: any,i) =>(
-                    <option key={`yands-${i}`} value={data._id}>{data.year + " - " + data.section}</option>
-                ))}
-              </select>
 
-              <MDBCardText>Section:</MDBCardText>
-              <select onChange={(e)=> handleSelect(e)} className="bg-transparent text-dark p-1">
-                <option disabled selected>Please Select</option>
-                {yands.map((data: any,i) =>(
-                    <option key={`yands-${i}`} value={data._id}>{data.year + " - " + data.section}</option>
-                ))}
-              </select> */}
-            <MDBCardText>Year:</MDBCardText>
-                <select onChange={handleSelectYear} className="bg-transparent text-dark p-1">
+              <MDBCardText>Year:</MDBCardText>
+                <select onChange={(e) => handleSelectYear(e)} className="bg-transparent text-dark p-1">
                   <option disabled selected>Please Select</option>
                   {yands.map((data: any, i) => (
                     <option key={`year-${i}`} value={data.year}>
@@ -169,10 +146,11 @@ const AssignAdviser: React.FC<ContainerProps> = (props) => {
                   ))}
                 </select>
 
-                <MDBCardText>Section:</MDBCardText>
-                <select onChange={handleSelectSection} className="bg-transparent text-dark p-1">
-                  <option selected>Please Select</option>
-                  {filteredSections.map((data: any, i) => (
+              <MDBCardText>Section:</MDBCardText>
+                <select onChange={(e) => handleSelectSection(e)} className="bg-transparent text-dark p-1">
+                <option selected={selectyands === "" ? true : false}>Please Select</option>
+                  {
+                  filteredSections.map((data: any, i) => (
                     <option key={`section-${i}`} value={data._id}>
                       {data.section}
                     </option>

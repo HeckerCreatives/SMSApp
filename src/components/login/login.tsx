@@ -7,6 +7,7 @@ const LoginComponent: React.FC<ContainerProps> = () => {
     const login = () => {
         window.location.href = "/dashboard"
     }
+    
   return (
     <div id="container">
     <IonCard>

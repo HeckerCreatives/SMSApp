@@ -45,7 +45,8 @@ const ViewTeacher: React.FC<ContainerProps> = (props) => {
               <MDBCardText>Username:</MDBCardText>
               <MDBInput name="username" readOnly value={data?.userdetail?.username}/>
               <MDBCardText>Password:</MDBCardText>
-              <MDBInput name="middlename" readOnly value={data?.userdetail?.password}/>
+              <MDBInput name="password" readOnly value={data?.userdetail?.password}/>
+
               <MDBCardText>First Name:</MDBCardText>
               <MDBInput name="firstname" readOnly value={data?.firstname}/>
               <MDBCardText>Middle Name:</MDBCardText>

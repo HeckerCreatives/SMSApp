@@ -21,6 +21,7 @@ const AdminAccountManagementTeacher: React.FC = () => {
     const [rowdata, setRowdata] = useState([]);
     const [present] = useIonToast();
     const toggleShow = (open: boolean) => setBasicModal(open);
+
     const toggleShow1 = (open: boolean, data: any) => {
       setViewModal(open)
       setRowdata(data)
@@ -29,6 +30,7 @@ const AdminAccountManagementTeacher: React.FC = () => {
       setEditModal(open)
       setRowdata(data)
     }
+
     useEffect(() => {
       fetch(`${import.meta.env.VITE_ENDPOINT_URL}teacher/find`)
       .then(result => result.json())
@@ -124,14 +126,14 @@ const AdminAccountManagementTeacher: React.FC = () => {
                       <td>
                           <MDBBtn 
                           block
-                          onClick={() => toggleShow1(true,data)} 
+                          onClick={() => toggleShow1(true, data)} 
                           className="mx-1">
                           View
                           </MDBBtn>
 
                           <MDBBtn 
                           block
-                          onClick={() => toggleShow2(true,data)} 
+                          onClick={() => toggleShow2(true, data)} 
                           className="mx-1">
                           Edit
                           </MDBBtn>

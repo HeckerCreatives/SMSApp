@@ -68,7 +68,7 @@ const AdminYearAndSectionAssignedTeacher: React.FC = () => {
                     </MDBTableHead>
                     <MDBTableBody>
                       { adviser.length !== 0 ? 
-                      adviser.map((data: any,i) => (
+                      adviser?.map((data: any,i) => (
                       <tr key={`adviser-${i}`}>
                         <td>{data.adviser.firstname + " " + data.adviser.middlename + " " + data.adviser.lastname}</td>
                         <td>{data.yearandsection.year}</td>

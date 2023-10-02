@@ -21,6 +21,8 @@ const AddStudent: React.FC<ContainerProps> = (props) => {
     const [selectyands, setSelectyands] = useState("")
     const [openmodal, setopenmodal] = useState(false)
     const { basicModal } = props
+    const [selectedYear, setSelectedYear] = useState(""); // State to store the selected year
+    const [filteredSections, setFilteredSections] = useState([]); // State to store the filtered sections
 
     useEffect(() => {
       setopenmodal(basicModal)
@@ -30,15 +32,24 @@ const AddStudent: React.FC<ContainerProps> = (props) => {
       props.onbasicModal(false)
     }
 
-    const handleSelect = (e: any) => {
-        const selectedValue = e.target.value
-        if(selectedValue !== ""){
-            setSelectyands(selectedValue)
-        } else {
-            setSelectyands("")
-        }
-        
-    }
+    // Function to handle year selection
+    const handleSelectYear = (e: any) => {
+      const selectedYear = e.target.value;
+      setSelectedYear(selectedYear);
+      setSelectyands("")
+      // Filter sections based on the selected year
+      const sectionsForSelectedYear = yands.filter((data: any) => data.year === selectedYear);
+      setFilteredSections(sectionsForSelectedYear);
+    };
+
+    // Function to handle section selection
+    const handleSelectSection = (e: any) => {
+      // Handle section selection here
+      const selectedSectionId = e.target.value;
+      
+      setSelectyands(selectedSectionId)
+      // Do something with selectedSectionId
+    };
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_ENDPOINT_URL}yearandsection/find`)
@@ -123,20 +134,27 @@ const AddStudent: React.FC<ContainerProps> = (props) => {
               <MDBInput name="mother"/>
               <MDBCardText>Father:</MDBCardText>
               <MDBInput name="father"/>
-              <MDBCardText>Year And Section:</MDBCardText>
-              {yands.length !== 0 ? 
-              
-              <select onChange={(e)=> handleSelect(e)} className="bg-transparent text-dark p-1">
-                <option disabled selected>Please Select</option>
-                {yands.map((data: any,i) =>(
-                    <option key={`yands-${i}`} value={data._id}>{data.year + " - " + data.section}</option>
-                ))}
-                
-              </select>
-             
-              :
-              <MDBCardText>No Data</MDBCardText>
-              }
+              <MDBCardText>Year:</MDBCardText>
+                <select onChange={(e) => handleSelectYear(e)} className="bg-transparent text-dark p-1">
+                  <option disabled selected>Please Select</option>
+                  {yands.map((data: any, i) => (
+                    <option key={`year-${i}`} value={data.year}>
+                      {data.year}
+                    </option>
+                  ))}
+                </select>
+
+              <MDBCardText>Section:</MDBCardText>
+                <select onChange={(e) => handleSelectSection(e)} className="bg-transparent text-dark p-1">
+                <option selected={selectyands === "" ? true : false}>Please Select</option>
+                  {
+                  filteredSections.map((data: any, i) => (
+                    <option key={`section-${i}`} value={data._id}>
+                      {data.section}
+                    </option>
+                  ))}
+                </select>
+            
               
 
             </MDBModalBody>

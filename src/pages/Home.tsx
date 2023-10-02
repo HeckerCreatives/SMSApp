@@ -25,12 +25,13 @@ import StudentDashboard from './Student/dashboard';
 import StudentGrades from './Student/grades';
 import StudentProfile from './Student/profile';
 const Dashboard: React.FC = () => {
+  const authJSON = localStorage.getItem("auth");
   const [didToggle, setDidToggle] = useState(
     window.innerWidth > 768 ? false : true
   );
 
-  const role = "Administrator"
-  // const role = "Teacher"
+  // const role = "Administrator"
+  const role = "Teacher"
   // const role = "Student"
   let link;
   switch(role){

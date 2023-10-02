@@ -1,8 +1,35 @@
-import React from "react";
+import React , { useState, useEffect }from "react";
 import { MDBTable, MDBTableHead, MDBTableBody,MDBBtn, MDBTypography, MDBInput,MDBIcon } from 'mdb-react-ui-kit';
 import { IonCardTitle, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonCard, IonCardContent, IonCol, IonGrid, IonRow, IonCardHeader} from '@ionic/react';
 import Breadcrumb from "../../components/breadcrumbs/breadcrumb";
+import ViewStudentsSubject from "./modal/subject/viewstudents";
 const TeacherSubjectList: React.FC = () => {
+  const [mysubject, setMySubject] = useState([])
+  const [rowdata, setRowdata] = useState([]);
+  const [basicModal, setBasicModal] = useState(false);
+  const [viewModal, setViewModal] = useState(false);
+
+  const toggleShow = (open: boolean, data: any) => {
+    setViewModal(open)
+    setRowdata(data)
+  }
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_ENDPOINT_URL}subject/teachersubject`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({id: "651a81b74795523dca9b5360"})
+    })
+    .then(result => result.json())
+    .then(data => {
+      if(data.message === "success"){
+        setMySubject(data.data)
+      }
+    })
+  },[])
+
     return(
     <IonPage>
       <IonContent>
@@ -31,9 +58,9 @@ const TeacherSubjectList: React.FC = () => {
             </select>
 
             </div>
-            <div className="d-flex align-items-center justify-content-center">
+            {/* <div className="d-flex align-items-center justify-content-center">
             <MDBBtn className="m-2">ADD</MDBBtn>
-            </div>
+            </div> */}
             
             </div>
             
@@ -49,17 +76,33 @@ const TeacherSubjectList: React.FC = () => {
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
-                        <tr>
-                        <td>Mark</td>
-                        <td>Mark</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>
-                            <MDBBtn className="mx-1">
-                                View Students
-                            </MDBBtn>
-                        </td>
+                      { mysubject.length !== 0 ?
+                        mysubject.map((data: any,i) => (
+                        <tr key={`subjects-${i}`}>
+                          <td>{data.yearandsection.year}</td>
+                          <td>{data.yearandsection.section}</td>
+                          <td>{data.subjectname}</td>
+                          <td>{new Date(data.createdAt).toLocaleString()}</td>
+                          <td>
+                              <MDBBtn 
+                              className="mx-1"
+                              onClick={() => {
+                                toggleShow(true, data.yearandsection._id)
+                              }}
+                              >
+                                  View Students
+                              </MDBBtn>
+                          </td>
                         </tr>
+                        ))
+                      :
+                          <tr>
+                            <td>
+                              No data
+                            </td>
+                          </tr>
+                      }
+                        
                         
                     </MDBTableBody>
                 </MDBTable>
@@ -69,10 +112,8 @@ const TeacherSubjectList: React.FC = () => {
           </IonCol>
         </IonRow>
         </IonGrid>
-
-        
-
       </IonContent>
+      <ViewStudentsSubject data={rowdata} basicModal={viewModal} onbasicModal={toggleShow}/>  
     </IonPage>
     )
 }

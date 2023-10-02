@@ -31,9 +31,9 @@ const TeacherList: React.FC = () => {
             </select>
 
             </div>
-            <div className="d-flex align-items-center justify-content-center">
+            {/* <div className="d-flex align-items-center justify-content-center">
             <MDBBtn className="m-2">ADD</MDBBtn>
-            </div>
+            </div> */}
             
             </div>
             
