@@ -21,6 +21,8 @@ import TeacherList from './Teacher/list';
 import TeacherGrading from './Teacher/grading';
 import TeacherSms from './Teacher/sms';
 import TeacherProfile from './Teacher/profile';
+import TeacherAdvisoryGrading from './Teacher/advisorygrading';
+import TeacherAdvisoryList from './Teacher/advisorylist';
 import StudentDashboard from './Student/dashboard';
 import StudentGrades from './Student/grades';
 import StudentProfile from './Student/profile';
@@ -129,8 +131,16 @@ const Dashboard: React.FC = () => {
             path: "/dashboard/teacher/list",
           },
           {
+            name: "Advisory List",
+            path: "/dashboard/teacher/advisorylist",
+          },
+          {
             name: "Grading",
             path: "/dashboard/teacher/grading",
+          },
+          {
+            name: "Advisory Grading",
+            path: "/dashboard/teacher/advisorygrading",
           },
           {
             name: "Manual SMS",
@@ -227,8 +237,11 @@ const Dashboard: React.FC = () => {
         <Route exact path="/dashboard/teacher/subject" component={TeacherSubjectList}/>
         <Route exact path="/dashboard/teacher/list" component={TeacherList}/>
         <Route exact path="/dashboard/teacher/grading" component={TeacherGrading}/>
+        <Route exact path="/dashboard/teacher/advisorylist" component={TeacherAdvisoryList}/>
+        <Route exact path="/dashboard/teacher/advisorygrading" component={TeacherAdvisoryGrading}/>
         <Route exact path="/dashboard/teacher/sms" component={TeacherSms}/>
         <Route exact path="/dashboard/teacher/profile" component={TeacherProfile}/>
+        
 
         {/* Student */}
         <Route exact path="/dashboard/student" component={StudentDashboard}/>

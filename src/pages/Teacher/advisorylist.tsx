@@ -1,36 +1,28 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import { MDBTable, MDBTableHead, MDBTableBody,MDBBtn, MDBTypography, MDBInput,MDBIcon } from 'mdb-react-ui-kit';
 import { IonCardTitle, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonCard, IonCardContent, IonCol, IonGrid, IonRow, IonCardHeader} from '@ionic/react';
 import Breadcrumb from "../../components/breadcrumbs/breadcrumb";
-import GradingStudent from "./modal/studentmanagement/grading";
-import EditGradingStudent from "./modal/studentmanagement/editgrading";
-const TeacherGrading: React.FC = () => {
+import ViewStudentsDetails from "./modal/studentmanagement/list";
+import ViewAdvisoryStudentsDetails from "./modal/studentmanagement/advisorylist";
+const TeacherAdvisoryList: React.FC = () => {
   const [students, setStudents] = useState([])
   const [rowdata, setRowdata] = useState([]);
   const [subjectdata, setSubjectData] = useState("");
   const [basicModal, setBasicModal] = useState(false);
   const [viewModal, setViewModal] = useState(false);
-  const [editModal, setEditModal] = useState(false);
 
   const toggleShow = (open: boolean, rowIndex: number) => {
       // Use the rowIndex to access the corresponding student data
       const rowData = students[rowIndex];
 
-      setBasicModal(open);
+      setViewModal(open);
       setRowdata(rowData);
       // setSubjectData(rowData.subjectName);
     }
-  const toggleShow1 = (open: boolean, rowIndex: number) => {
-      // Use the rowIndex to access the corresponding student data
-      const rowData = students[rowIndex];
 
-      setEditModal(open);
-      setRowdata(rowData);
-      // setSubjectData(rowData.subjectName);
-    }
 
   useEffect(()=>{
-    fetch(`${import.meta.env.VITE_ENDPOINT_URL}grade/findstudent`, {
+    fetch(`${import.meta.env.VITE_ENDPOINT_URL}classroom/findadvisory`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -40,7 +32,9 @@ const TeacherGrading: React.FC = () => {
     .then(result => result.json())
     .then(data => {
         if(data.message === "success"){
+            console.log(data.data)
             setStudents(data.data)
+            // setSubjectData(data.subjects)
         }
     })
   },[])
@@ -54,14 +48,14 @@ const TeacherGrading: React.FC = () => {
             <IonTitle>Teacher</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <Breadcrumb text1="Student Grading" text2=""/>
+        <Breadcrumb text1="Student List" text2=""/>
         <IonGrid>
         <IonRow>
          
           <IonCol>
             <IonCard>
                 <IonCardHeader>
-                <IonCardTitle>Student Grading</IonCardTitle>
+                <IonCardTitle>Student Detail</IonCardTitle>
                 </IonCardHeader>
             <div className="h4 d-flex justify-content-between">
             
@@ -103,14 +97,7 @@ const TeacherGrading: React.FC = () => {
                                     toggleShow(true, i);
                                   }}
                                 >
-                                  Set Grades
-                                </MDBBtn>
-                                <MDBBtn 
-                                className="mx-1"
-                                  onClick={() => {
-                                    toggleShow1(true, i);
-                                  }}>
-                                  Edit Grades
+                                  View Details
                                 </MDBBtn>
                               </td>
                         </tr>
@@ -131,10 +118,9 @@ const TeacherGrading: React.FC = () => {
         </IonRow>
         </IonGrid>
       </IonContent>
-      <GradingStudent data={rowdata} basicModal={basicModal} onbasicModal={toggleShow}/>
-      <EditGradingStudent data={rowdata} basicModal={editModal} onbasicModal={toggleShow1}/>
+    <ViewAdvisoryStudentsDetails subject={subjectdata} data={rowdata} basicModal={viewModal} onbasicModal={toggleShow}/>
     </IonPage>
     )
 }
 
-export default TeacherGrading;
+export default TeacherAdvisoryList;

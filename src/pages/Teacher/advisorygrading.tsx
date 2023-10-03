@@ -4,7 +4,7 @@ import { IonCardTitle, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, Ion
 import Breadcrumb from "../../components/breadcrumbs/breadcrumb";
 import GradingStudent from "./modal/studentmanagement/grading";
 import EditGradingStudent from "./modal/studentmanagement/editgrading";
-const TeacherGrading: React.FC = () => {
+const TeacherAdvisoryGrading: React.FC = () => {
   const [students, setStudents] = useState([])
   const [rowdata, setRowdata] = useState([]);
   const [subjectdata, setSubjectData] = useState("");
@@ -137,4 +137,4 @@ const TeacherGrading: React.FC = () => {
     )
 }
 
-export default TeacherGrading;
+export default TeacherAdvisoryGrading;

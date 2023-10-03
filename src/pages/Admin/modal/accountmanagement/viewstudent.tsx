@@ -9,7 +9,6 @@ import {
   MDBModalBody,
   MDBModalFooter,
   MDBInput,
-  MDBTypography,
   MDBCardText,
 } from 'mdb-react-ui-kit';
 import "./index.css"
@@ -41,10 +40,6 @@ const ViewStudent: React.FC<ContainerProps> = (props) => {
               {/* <MDBBtn className='btn-close' color='none' onClick={toggleShow}></MDBBtn> */}
             </MDBModalHeader>
             <MDBModalBody>
-              <MDBCardText>Username:</MDBCardText>
-              <MDBInput name="username" readOnly value={data?.userdetails?.username}/>
-              <MDBCardText>Password:</MDBCardText>
-              <MDBInput name="middlename" readOnly value={data?.userdetails?.password}/>
               <MDBCardText>First Name:</MDBCardText>
               <MDBInput name="firstname" readOnly value={data?.firstname}/>
               <MDBCardText>Middle Name:</MDBCardText>
