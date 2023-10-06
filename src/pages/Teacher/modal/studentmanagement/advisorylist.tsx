@@ -22,6 +22,7 @@ const ViewAdvisoryStudentsDetails: React.FC<ContainerProps> = (props) => {
     const { basicModal, data, subject } = props
     const [openmodal, setopenmodal] = useState(false)
     const [grade, setGrade] = useState([])
+    const [subjects, setSubjects] = useState([])
     useEffect(() => {
     setopenmodal(basicModal)
     },[basicModal])
@@ -36,12 +37,32 @@ const ViewAdvisoryStudentsDetails: React.FC<ContainerProps> = (props) => {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({studentid: data?.student?._id})
+        body: JSON.stringify({ studentid: data?.student?._id })
+      })
+        .then(result => result.json())
+        .then(data => {
+          const subjectIds = subjects.map((subject:any) => subject._id);
+          const filteredGrade = data.data.filter((gradeData:any) =>
+            subjectIds.includes(gradeData.subject._id)
+          );
+          setGrade(filteredGrade);
+          console.log(filteredGrade);
+        });
+    }, [data, subjects]);
+    
+
+    useEffect(() => {
+      fetch(`${import.meta.env.VITE_ENDPOINT_URL}subject/findsubject`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({id: data?.student?.yearandsection?._id})
       })
       .then(result => result.json())
       .then(data => {
         console.log(data.data)
-        setGrade(data.data)
+        setSubjects(data.data)
       })
     },[data])
 
@@ -93,33 +114,26 @@ const ViewAdvisoryStudentsDetails: React.FC<ContainerProps> = (props) => {
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
-                        {grade.length !== 0 ?
-                        grade.map((data:any,i) => (
-                            <tr>
-                            <td>{data.subject.subjectname}</td>
-                            <td>
-                            {grade.length !== 0 ? grade[0]?.grade : "no data"}
-                            </td>
-                            <td>
-                            {grade.length !== 0 ? grade[1]?.grade : "no data"}
-                            </td>
-                            <td>
-                            {grade.length !== 0 ? grade[3]?.grade : "no data"}
-                            </td>
-                            <td>
-                            {grade.length !== 0 ? grade[4]?.grade : "no data"}
-                            </td>
-                            <td>
-                            {/* <MDBInput label="Remarks" name="remarks" type="number"/> */}
-                            </td>
-                        </tr>
-                        ))
-                        :
-                        <tr>
-                            <td colSpan={6}>No Data</td>
-                        </tr>
-                        }
-                    
+                    {grade.length !== 0 ? (
+                    subjects.map((subjectData: any, i) => (
+                      <tr key={i}>
+                        <td>{subjectData.subjectname}</td>
+                        {grade
+                          .filter((gradeData: any) => gradeData.subject._id === subjectData._id)
+                          .map((filteredGradeData: any, j) => (
+                            <td key={j}>{filteredGradeData.grade || "no data"}</td>
+                          ))}
+                        <td>
+                          <MDBInput label="Remarks" name="remarks" type="number"/>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={6}>No Data</td>
+                    </tr>
+                  )}
+
                     </MDBTableBody>
                 </MDBTable>
                     </MDBCol>

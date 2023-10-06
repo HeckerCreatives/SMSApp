@@ -4,6 +4,7 @@ import { IonCardTitle, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, Ion
 import Breadcrumb from "../../components/breadcrumbs/breadcrumb";
 import GradingStudent from "./modal/studentmanagement/grading";
 import EditGradingStudent from "./modal/studentmanagement/editgrading";
+import AdvisoryGradingStudent from "./modal/studentmanagement/advisorygrading";
 const TeacherAdvisoryGrading: React.FC = () => {
   const [students, setStudents] = useState([])
   const [rowdata, setRowdata] = useState([]);
@@ -29,21 +30,23 @@ const TeacherAdvisoryGrading: React.FC = () => {
       // setSubjectData(rowData.subjectName);
     }
 
-  useEffect(()=>{
-    fetch(`${import.meta.env.VITE_ENDPOINT_URL}grade/findstudent`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({id: "651a81b74795523dca9b5360"}) // teacher id
-    })
-    .then(result => result.json())
-    .then(data => {
-        if(data.message === "success"){
-            setStudents(data.data)
-        }
-    })
-  },[])
+    useEffect(()=>{
+      fetch(`${import.meta.env.VITE_ENDPOINT_URL}classroom/findadvisory`, {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify({id: "651a81b74795523dca9b5360"}) // teacher id
+      })
+      .then(result => result.json())
+      .then(data => {
+          if(data.message === "success"){
+              console.log(data.data)
+              setStudents(data.data)
+              // setSubjectData(data.subjects)
+          }
+      })
+    },[])
 
     return(
     <IonPage>
@@ -61,7 +64,7 @@ const TeacherAdvisoryGrading: React.FC = () => {
           <IonCol>
             <IonCard>
                 <IonCardHeader>
-                <IonCardTitle>Student Grading</IonCardTitle>
+                <IonCardTitle>Advisory Student Grading</IonCardTitle>
                 </IonCardHeader>
             <div className="h4 d-flex justify-content-between">
             
@@ -131,7 +134,7 @@ const TeacherAdvisoryGrading: React.FC = () => {
         </IonRow>
         </IonGrid>
       </IonContent>
-      <GradingStudent data={rowdata} basicModal={basicModal} onbasicModal={toggleShow}/>
+      <AdvisoryGradingStudent data={rowdata} basicModal={basicModal} onbasicModal={toggleShow}/>
       <EditGradingStudent data={rowdata} basicModal={editModal} onbasicModal={toggleShow1}/>
     </IonPage>
     )
