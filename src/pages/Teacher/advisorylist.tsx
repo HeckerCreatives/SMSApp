@@ -33,7 +33,7 @@ const TeacherAdvisoryList: React.FC = () => {
     .then(data => {
         if(data.message === "success"){
             console.log(data.data)
-            setStudents(data.data)
+            setStudents(data.data.filter((d:any) => d !== null))
             // setSubjectData(data.subjects)
         }
     })

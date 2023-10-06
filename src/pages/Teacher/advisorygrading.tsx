@@ -41,8 +41,8 @@ const TeacherAdvisoryGrading: React.FC = () => {
       .then(result => result.json())
       .then(data => {
           if(data.message === "success"){
-              console.log(data.data)
-              setStudents(data.data)
+              // console.log(data.data.filter(d => d !== null))
+              setStudents(data.data.filter((d:any) => d !== null))
               // setSubjectData(data.subjects)
           }
       })
@@ -96,9 +96,9 @@ const TeacherAdvisoryGrading: React.FC = () => {
                     {students.length !== 0 ? (
                       students.map((data: any, i) => (
                         <tr key={`subjects-${i}`}>
-                          <td>{data.student.firstname + " " + data.student.middlename + " " + data.student.lastname}</td>
-                              <td>{data.student.yearandsection.year}</td>
-                              <td>{data.student.yearandsection.section}</td>
+                          <td>{data !== null ? data.student.firstname + " " + data.student.middlename + " " + data.student.lastname: ""}</td>
+                              <td>{data !== null ? data.student.yearandsection.year: ""}</td>
+                              <td>{data !== null ? data.student.yearandsection.section : ""}</td>
                               <td>
                                 <MDBBtn 
                                   className="mx-1"

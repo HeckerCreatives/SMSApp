@@ -32,6 +32,7 @@ const AdvisoryGradingStudent: React.FC<ContainerProps> = (props) => {
     const { basicModal, data } = props
     
     useEffect(() => {
+        console.log(data)
         fetch(`${import.meta.env.VITE_ENDPOINT_URL}grade/findone`, {
             method: "POST",
             headers: {
@@ -44,7 +45,7 @@ const AdvisoryGradingStudent: React.FC<ContainerProps> = (props) => {
             // console.log(quar)
 
             const quar = item.data.length
-            console.log(quar)
+            // console.log(quar)
             if(quar === 0){
                 setQ1(false)
                 setQ2(true)
@@ -69,6 +70,7 @@ const AdvisoryGradingStudent: React.FC<ContainerProps> = (props) => {
             
         })
     },[data])
+    
     useEffect(() => {
         fetch(`${import.meta.env.VITE_ENDPOINT_URL}teacher/findstudent`, {
           method: "POST",
@@ -84,7 +86,7 @@ const AdvisoryGradingStudent: React.FC<ContainerProps> = (props) => {
               subjectIds.includes(gradeData.subject._id)
             );
             setGrades(filteredGrade);
-            console.log(filteredGrade);
+            // console.log(filteredGrade);
           });
       }, [data, subjects]);
       
@@ -99,7 +101,7 @@ const AdvisoryGradingStudent: React.FC<ContainerProps> = (props) => {
         })
         .then(result => result.json())
         .then(data => {
-          console.log(data.data)
+        //   console.log(data.data)
           setSubjects(data.data)
         })
       },[data])
