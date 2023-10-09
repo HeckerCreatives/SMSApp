@@ -19,9 +19,11 @@ const AddList: React.FC<ContainerProps> = (props) => {
     const [present] = useIonToast();
     const [openmodal, setopenmodal] = useState(false)
     const { basicModal } = props
-
+    const currentYear = new Date().getFullYear();
+    const years = Array.from({ length: 10 }, (_, index) => currentYear + index);
     useEffect(() => {
       setopenmodal(basicModal)
+      console.log(new Date().getFullYear())
     },[basicModal])
 
     const handleChange = () => {
@@ -78,7 +80,13 @@ const AddList: React.FC<ContainerProps> = (props) => {
             </MDBModalHeader>
             <MDBModalBody>
               <MDBCardText>Year:</MDBCardText>
-              <MDBInput name="year"/>
+              <select className="bg-transparent text-dark p-1">
+              {years.map((year, index) => (
+                <option key={`year${index}`} value={year}>
+                  {year}
+                </option>
+              ))}
+            </select>
               <MDBCardText>Section:</MDBCardText>
               <MDBInput name="section"/>
             </MDBModalBody>

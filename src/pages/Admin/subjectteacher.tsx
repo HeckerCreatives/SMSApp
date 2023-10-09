@@ -66,6 +66,7 @@ const AdminSubjectTeacher: React.FC = () => {
                         <th scope='col'>Year</th>
                         <th scope='col'>Section</th>
                         <th scope='col'>Subject</th>
+                        <th scope='col'>Schedule</th>
                         <th scope='col'>Date Created</th>
                         <th scope='col'>Action</th>
                         </tr>
@@ -78,6 +79,7 @@ const AdminSubjectTeacher: React.FC = () => {
                         <td>{data.yearandsection.year}</td>
                         <td>{data.yearandsection.section}</td>
                         <td>{data.subjectname}</td>
+                        <td>AM/PM</td>
                         <td>{new Date(data.createdAt).toLocaleString()}</td>
                         <td>
                             <MDBBtn onClick={() => toggleShow(true,data)} block disabled={data.teacher ? true : false}>

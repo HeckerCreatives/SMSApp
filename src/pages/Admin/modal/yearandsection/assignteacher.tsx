@@ -25,7 +25,8 @@ const AssignAdviser: React.FC<ContainerProps> = (props) => {
     const { basicModal } = props
     const [selectedYear, setSelectedYear] = useState(""); // State to store the selected year
     const [filteredSections, setFilteredSections] = useState([]); // State to store the filtered sections
-    
+    const currentYear = new Date().getFullYear();
+    const years = Array.from({ length: 10 }, (_, index) => currentYear + index);
     useEffect(() => {
       setopenmodal(basicModal)
     },[basicModal,selectedYear,selectyands])
@@ -137,14 +138,13 @@ const AssignAdviser: React.FC<ContainerProps> = (props) => {
               </select>
 
               <MDBCardText>Year:</MDBCardText>
-                <select onChange={(e) => handleSelectYear(e)} className="bg-transparent text-dark p-1">
-                  <option disabled selected>Please Select</option>
-                  {yands.map((data: any, i) => (
-                    <option key={`year-${i}`} value={data.year}>
-                      {data.year}
-                    </option>
-                  ))}
-                </select>
+              <select className="bg-transparent text-dark p-1">
+              {years.map((year, index) => (
+                <option key={`year${index}`} value={year}>
+                  {year}
+                </option>
+              ))}
+            </select>
 
               <MDBCardText>Section:</MDBCardText>
                 <select onChange={(e) => handleSelectSection(e)} className="bg-transparent text-dark p-1">

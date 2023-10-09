@@ -22,7 +22,8 @@ const EditSubject: React.FC<ContainerProps> = ({data , basicModal, onbasicModal}
     const [selectyands, setSelectyands] = useState("")
     const [selectedYear, setSelectedYear] = useState(""); // State to store the selected year
     const [filteredSections, setFilteredSections] = useState([]); // State to store the filtered sections
-
+    const currentYear = new Date().getFullYear();
+    const years = Array.from({ length: 10 }, (_, index) => currentYear + index);
     useEffect(() => {
     setopenmodal(basicModal)
     },[basicModal,selectedYear,selectyands])
@@ -110,11 +111,19 @@ const EditSubject: React.FC<ContainerProps> = ({data , basicModal, onbasicModal}
             <MDBCardText>Subject Name:</MDBCardText>
               <MDBInput name="subject" label={data?.subjectname}/>
               <MDBCardText>Year:</MDBCardText>
-                <select onChange={(e) => handleSelectYear(e)} className="bg-transparent text-dark p-1">
+                {/* <select onChange={(e) => handleSelectYear(e)} className="bg-transparent text-dark p-1">
                   <option disabled selected>{data?.yearandsection?.year}</option>
                   {yands.map((data: any, i) => (
                     <option key={`year-${i}`} value={data.year}>
                       {data.year}
+                    </option>
+                  ))}
+                </select> */}
+
+                <select className="bg-transparent text-dark p-1">
+                  {years.map((year, index) => (
+                    <option key={`year${index}`} value={year}>
+                      {year}
                     </option>
                   ))}
                 </select>
@@ -128,6 +137,16 @@ const EditSubject: React.FC<ContainerProps> = ({data , basicModal, onbasicModal}
                       {data.section}
                     </option>
                   ))}
+                </select>
+                
+                <MDBCardText>Shift Schedule:</MDBCardText>
+                <select className="bg-transparent text-dark p-1">
+                  <option key={`year`} value={"AM"}>
+                      AM
+                    </option>
+                    <option key={`year`} value={"PM"}>
+                      PM
+                    </option>
                 </select>
             </MDBModalBody>
 

@@ -33,8 +33,8 @@ const Dashboard: React.FC = () => {
   );
 
   // const role = "Administrator"
-  const role = "Teacher"
-  // const role = "Student"
+  // const role = "Teacher"
+  const role = "Student"
   let link;
   switch(role){
     case 'Administrator':
@@ -138,10 +138,10 @@ const Dashboard: React.FC = () => {
             name: "Grading",
             path: "/dashboard/teacher/grading",
           },
-          {
-            name: "Advisory Grading",
-            path: "/dashboard/teacher/advisorygrading",
-          },
+          // {
+          //   name: "Advisory Grading",
+          //   path: "/dashboard/teacher/advisorygrading",
+          // },
           {
             name: "Manual SMS",
             path: "/dashboard/teacher/sms",

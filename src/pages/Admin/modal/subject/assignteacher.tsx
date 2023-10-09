@@ -109,6 +109,8 @@ const AssignSubjectTeacher: React.FC<ContainerProps> = (props) => {
               <MDBInput name="year" readOnly value={data?.yearandsection?.year}/>
               <MDBCardText>Section:</MDBCardText>
               <MDBInput name="section" readOnly value={data?.yearandsection?.section}/>
+              <MDBCardText>Shift Schedule:</MDBCardText>
+              <MDBInput name="sched" readOnly />
             </MDBModalBody>
 
             <MDBModalFooter>

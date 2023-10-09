@@ -1,8 +1,38 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { MDBTable, MDBTableHead, MDBTableBody,MDBBtn, MDBTypography, MDBInput,MDBIcon } from 'mdb-react-ui-kit';
 import { IonCardTitle, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonCard, IonCardContent, IonCol, IonGrid, IonRow, IonCardHeader} from '@ionic/react';
 import Breadcrumb from "../../components/breadcrumbs/breadcrumb";
 const StudentGrades: React.FC = () => {
+  const [mygrades, setMyGrades] = useState([])
+  const [mysubjects, setMySubjects] = useState([])
+  useEffect(()=>{
+    fetch(`${import.meta.env.VITE_ENDPOINT_URL}grade/find`,{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({id: "651a83d04795523dca9b5394"})
+    })
+    .then(result => result.json())
+    .then(data => {
+      setMyGrades(data.data)
+    })
+  },[])
+
+  useEffect(()=>{
+    fetch(`${import.meta.env.VITE_ENDPOINT_URL}subject/findsubject`,{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({id: "65129f269180d23c8969a89f"})
+    })
+    .then(result => result.json())
+    .then(data => {
+      setMySubjects(data.data)
+    })
+  },[])
+
     return(
     <IonPage>
       <IonContent>
@@ -50,14 +80,30 @@ const StudentGrades: React.FC = () => {
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
+                        {/* <tr>
+                          <td colSpan={6}>
+                            No Data Yet
+                          </td>
+                        </tr> */}
+                      { mygrades.length !== 0 ?
+                        mysubjects.map((data:any, i) =>(
                         <tr>
-                        <td>Mark</td>
-                        <td>Mark</td>
-                        <td>Mark</td>
-                        <td>Mark</td>
-                        <td>Mark</td>
-                        <td>Mark</td>
+                          <td>{data.subjectname}</td>
+                          {mygrades
+                          .filter((gradeData: any) => gradeData.subject._id === data._id)
+                          .map((filteredGradeData: any, j) => (
+                            <td key={j}>{filteredGradeData.grade || "no data"}</td>
+                          ))}
                         </tr>
+                        ))
+                      :
+                        <tr>
+                          <td>
+                            No Data Yet
+                          </td>
+                        </tr>
+                      }
+                        
                         
                     </MDBTableBody>
                 </MDBTable>

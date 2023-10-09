@@ -77,10 +77,10 @@ const TeacherAdvisoryList: React.FC = () => {
                 <MDBTable className="table-bordered text-center" responsive>
                     <MDBTableHead>
                         <tr>
-                        <th scope='col'>Student Name</th>
-                        <th scope='col'>Year</th>
-                        <th scope='col'>Section</th>
-                        <th scope='col'>Action</th>
+                          <th scope='col'>Student Name</th>
+                          <th scope='col'>Year</th>
+                          <th scope='col'>Section</th>
+                          <th scope='col'>Action</th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
@@ -104,7 +104,7 @@ const TeacherAdvisoryList: React.FC = () => {
                       ))
                     ) : (
                       <tr>
-                        <td colSpan={4}>No students found</td>
+                        <td colSpan={4}>No Data You Are not An Adviser Yet</td>
                       </tr>
                     )}
 
