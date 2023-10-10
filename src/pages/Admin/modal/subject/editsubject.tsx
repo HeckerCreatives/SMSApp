@@ -20,6 +20,7 @@ const EditSubject: React.FC<ContainerProps> = ({data , basicModal, onbasicModal}
     const [openmodal, setopenmodal] = useState(false)
     const [yands, setYandS] = useState([])
     const [selectyands, setSelectyands] = useState("")
+    const [selectshift, setSelectShift] = useState("")
     const [selectedYear, setSelectedYear] = useState(""); // State to store the selected year
     const [filteredSections, setFilteredSections] = useState([]); // State to store the filtered sections
     const currentYear = new Date().getFullYear();
@@ -51,6 +52,11 @@ const EditSubject: React.FC<ContainerProps> = ({data , basicModal, onbasicModal}
       // Do something with selectedSectionId
     };
 
+    const handleSelectShift = (e: any) => {
+      const selectedshift = e.target.value;
+      setSelectShift(selectedshift)
+    }
+
     useEffect(() => {
         fetch(`${import.meta.env.VITE_ENDPOINT_URL}yearandsection/find`)
         .then(result => result.json())
@@ -61,7 +67,7 @@ const EditSubject: React.FC<ContainerProps> = ({data , basicModal, onbasicModal}
 
     const editsubject = (e: any) => {
         e.preventDefault();
-        const { subject } = e.target;
+        const { subject, writtenworks, performancetask, quarterlyassessment } = e.target;
         fetch(`${import.meta.env.VITE_ENDPOINT_URL}subject/update/${data._id}`, {
           method: "POST",
           headers: {
@@ -71,6 +77,10 @@ const EditSubject: React.FC<ContainerProps> = ({data , basicModal, onbasicModal}
             {
                 subjectname: subject.value ? subject.value : data?.subjectname,
                 yearandsection: selectyands ? selectyands : data?.yearandsection,
+                shift: selectshift ? selectshift : data?.shift,
+                writtenwork: writtenworks.value ? writtenworks.value : data?.writtenwork,
+                performancetask: performancetask.value ? performancetask.value : data?.performancetask,
+                quarterlyassessment: quarterlyassessment.value ? quarterlyassessment.value : data?.quarterlyassessment
             }
           )
         })
@@ -120,14 +130,20 @@ const EditSubject: React.FC<ContainerProps> = ({data , basicModal, onbasicModal}
                   ))}
                 </select> */}
 
-                <select className="bg-transparent text-dark p-1">
+                <select className="bg-transparent text-dark p-1" onChange={(e) => handleSelectYear(e)}>
+                <option disabled selected>{data?.yearandsection?.year}</option>
                   {years.map((year, index) => (
                     <option key={`year${index}`} value={year}>
                       {year}
                     </option>
                   ))}
                 </select>
-
+              <MDBCardText>Written Works %:</MDBCardText>
+              <MDBInput name="writtenworks" type="number" label={data?.writtenwork}/>
+              <MDBCardText>Performance Tasks %:</MDBCardText>
+              <MDBInput name="performancetask" type="number" label={data?.performancetask}/> 
+              <MDBCardText>Quarterly Assessment %:</MDBCardText>
+              <MDBInput name="quarterlyassessment" type="number" label={data?.quarterlyassessment}/> 
               <MDBCardText>Section:</MDBCardText>
                 <select onChange={(e) => handleSelectSection(e)} className="bg-transparent text-dark p-1">
                 <option disabled selected>{data?.yearandsection?.section}</option>
@@ -140,7 +156,8 @@ const EditSubject: React.FC<ContainerProps> = ({data , basicModal, onbasicModal}
                 </select>
                 
                 <MDBCardText>Shift Schedule:</MDBCardText>
-                <select className="bg-transparent text-dark p-1">
+                <select className="bg-transparent text-dark p-1" onChange={(e) => handleSelectShift(e)}>
+                <option disabled selected>{data?.shift}</option>
                   <option key={`year`} value={"AM"}>
                       AM
                     </option>

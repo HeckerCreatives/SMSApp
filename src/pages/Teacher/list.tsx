@@ -33,6 +33,7 @@ const TeacherList: React.FC = () => {
         if(data.message === "success"){
             setStudents(data.data)
             // setSubjectData(data.subjects)
+            // console.log(data.data)
         }
     })
   },[])

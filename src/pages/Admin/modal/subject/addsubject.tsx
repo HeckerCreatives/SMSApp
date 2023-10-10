@@ -20,6 +20,7 @@ const AddSubject: React.FC<ContainerProps> = (props) => {
     const [openmodal, setopenmodal] = useState(false)
     const [yands, setYandS] = useState([])
     const [selectyands, setSelectyands] = useState("")
+    const [selectshift, setSelectShift] = useState("")
     const { basicModal } = props
     const [selectedYear, setSelectedYear] = useState(""); // State to store the selected year
     const [filteredSections, setFilteredSections] = useState([]); // State to store the filtered sections
@@ -52,6 +53,11 @@ const AddSubject: React.FC<ContainerProps> = (props) => {
       // Do something with selectedSectionId
     };
 
+    const handleSelectShift = (e: any) => {
+      const selectedshift = e.target.value;
+      setSelectShift(selectedshift)
+    }
+
     useEffect(() => {
         fetch(`${import.meta.env.VITE_ENDPOINT_URL}yearandsection/find`)
         .then(result => result.json())
@@ -62,7 +68,7 @@ const AddSubject: React.FC<ContainerProps> = (props) => {
 
     const addlist = (e: any) => {
       e.preventDefault();
-      const { subject } = e.target;
+      const { subject, writtenworks, performancetask, quarterlyassessment} = e.target;
       fetch(`${import.meta.env.VITE_ENDPOINT_URL}subject/create`, {
         method: "POST",
         headers: {
@@ -72,6 +78,10 @@ const AddSubject: React.FC<ContainerProps> = (props) => {
           {
             subjectname: subject.value,
             yearandsection: selectyands,
+            shift: selectshift,
+            writtenwork: writtenworks.value,
+            performancetask: performancetask.value,
+            quarterlyassessment: quarterlyassessment.value
           }
         )
       })
@@ -121,14 +131,20 @@ const AddSubject: React.FC<ContainerProps> = (props) => {
                     </option>
                   ))}
                 </select> */}
-                <select className="bg-transparent text-dark p-1">
+                <select className="bg-transparent text-dark p-1" onChange={(e) => handleSelectYear(e)}>
+                <option disabled selected>Please Select</option>
                   {years.map((year, index) => (
                     <option key={`year${index}`} value={year}>
                       {year}
                     </option>
                   ))}
                 </select>
-
+              <MDBCardText>Written Works %:</MDBCardText>
+              <MDBInput name="writtenworks" type="number"/>
+              <MDBCardText>Performance Tasks %:</MDBCardText>
+              <MDBInput name="performancetask" type="number"/> 
+              <MDBCardText>Quarterly Assessment %:</MDBCardText>
+              <MDBInput name="quarterlyassessment" type="number"/> 
               <MDBCardText>Section:</MDBCardText>
                 <select onChange={(e) => handleSelectSection(e)} className="bg-transparent text-dark p-1">
                 <option selected={selectyands === "" ? true : false}>Please Select</option>
@@ -141,7 +157,8 @@ const AddSubject: React.FC<ContainerProps> = (props) => {
                 </select>
 
                 <MDBCardText>Shift Schedule:</MDBCardText>
-                <select className="bg-transparent text-dark p-1">
+                <select className="bg-transparent text-dark p-1" onChange={(e) => handleSelectShift(e)}>
+                <option disabled selected>Please Select</option>
                   <option key={`year`} value={"AM"}>
                       AM
                     </option>

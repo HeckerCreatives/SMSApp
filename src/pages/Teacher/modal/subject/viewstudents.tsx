@@ -66,15 +66,15 @@ const ViewStudentsSubject: React.FC<ContainerProps> = (props) => {
                 <MDBTableBody>
                     { students.length !== 0 ?
                     students.map((data: any,i) => (
-                    <tr>
+                    <tr key={`${i}`}>
                         <td>{data.firstname + " " + data.middlename + " " + data.lastname}</td>
                     </tr>
                     ))
                     :
                         <tr>
-                        <td>
-                            No data
-                        </td>
+                          <td>
+                              No data
+                          </td>
                         </tr>
                     }
                 </MDBTableBody>

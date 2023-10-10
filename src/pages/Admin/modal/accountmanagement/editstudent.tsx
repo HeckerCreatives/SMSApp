@@ -146,7 +146,8 @@ const EditStudent: React.FC<ContainerProps> = ({data , basicModal, onbasicModal}
                   ))}
                 </select> */}
                 
-                <select className="bg-transparent text-dark p-1">
+                <select className="bg-transparent text-dark p-1" onChange={(e) => handleSelectYear(e)}>
+                <option disabled selected>{data?.yearandsection?.year}</option>
                   {years.map((year, index) => (
                     <option key={`year${index}`} value={year}>
                       {year}
@@ -155,7 +156,7 @@ const EditStudent: React.FC<ContainerProps> = ({data , basicModal, onbasicModal}
                 </select>
               <MDBCardText>Section:</MDBCardText>
                 <select onChange={(e) => handleSelectSection(e)} className="bg-transparent text-dark p-1">
-                <option selected={selectyands === "" ? true : false}>Please Select</option>
+                <option disabled selected>{data?.yearandsection?.section}</option>
                   {
                   filteredSections.map((data: any, i) => (
                     <option key={`section-${i}`} value={data._id}>

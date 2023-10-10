@@ -145,7 +145,8 @@ const AddStudent: React.FC<ContainerProps> = (props) => {
                   ))}
                 </select> */}
                 
-                <select className="bg-transparent text-dark p-1">
+                <select className="bg-transparent text-dark p-1" onChange={(e) => handleSelectYear(e)}>
+                <option disabled selected>Please Select</option>
                   {years.map((year, index) => (
                     <option key={`year${index}`} value={year}>
                       {year}

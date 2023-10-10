@@ -46,7 +46,8 @@ const AssignSubjectTeacher: React.FC<ContainerProps> = (props) => {
       .then(data => {
         setTeachers(data.data)
       })
-    },[])
+      // console.log(data?.shift)
+    },[data])
 
 
     const addlist = (e: any) => {
@@ -96,21 +97,20 @@ const AssignSubjectTeacher: React.FC<ContainerProps> = (props) => {
               {/* <MDBBtn className='btn-close' color='none' onClick={toggleShow}></MDBBtn> */}
             </MDBModalHeader>
             <MDBModalBody>
-              <MDBCardText>Teacher:</MDBCardText>
-              <select onChange={(e)=> handleSelectAdviser(e)} className="bg-transparent text-dark p-1">
+              <MDBCardText><strong>Teacher:</strong></MDBCardText>
+              <select onChange={(e)=> handleSelectAdviser(e)} className="bg-transparent text-dark p-1 mb-3">
                 <option disabled selected>Please Select</option>
                 {teachers.map((data: any,i) =>(
                     <option key={`teacher-${i}`} value={data._id}>{data.firstname + " " + data.middlename + " " + data.lastname}</option>
                 ))}
               </select>
-              <MDBCardText>Subject Name:</MDBCardText>
-              <MDBInput name="subjectname" readOnly value={data?.subjectname}/>
-              <MDBCardText>Year:</MDBCardText>
-              <MDBInput name="year" readOnly value={data?.yearandsection?.year}/>
-              <MDBCardText>Section:</MDBCardText>
-              <MDBInput name="section" readOnly value={data?.yearandsection?.section}/>
-              <MDBCardText>Shift Schedule:</MDBCardText>
-              <MDBInput name="sched" readOnly />
+              <MDBCardText><strong>Subject Name:</strong>  {data?.subjectname}</MDBCardText>
+
+              <MDBCardText><strong>Year:</strong> {data?.yearandsection?.year}</MDBCardText>
+
+              <MDBCardText><strong>Section:</strong> {data?.yearandsection?.section}</MDBCardText>
+
+              <MDBCardText><strong>Shift Schedule:</strong> {data?.shift}</MDBCardText>
             </MDBModalBody>
 
             <MDBModalFooter>

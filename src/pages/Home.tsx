@@ -33,8 +33,8 @@ const Dashboard: React.FC = () => {
   );
 
   // const role = "Administrator"
-  // const role = "Teacher"
-  const role = "Student"
+  const role = "Teacher"
+  // const role = "Student"
   let link;
   switch(role){
     case 'Administrator':

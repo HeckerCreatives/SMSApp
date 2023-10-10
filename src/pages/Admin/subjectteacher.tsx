@@ -23,8 +23,10 @@ const AdminSubjectTeacher: React.FC = () => {
     .then(result => result.json())
     .then(data => {
       setSubject(data.data)
+      console.log(data)
     })
   },[])
+
     return(
     <IonPage>
       <IonContent>
@@ -79,7 +81,7 @@ const AdminSubjectTeacher: React.FC = () => {
                         <td>{data.yearandsection.year}</td>
                         <td>{data.yearandsection.section}</td>
                         <td>{data.subjectname}</td>
-                        <td>AM/PM</td>
+                        <td>{data.shift}</td>
                         <td>{new Date(data.createdAt).toLocaleString()}</td>
                         <td>
                             <MDBBtn onClick={() => toggleShow(true,data)} block disabled={data.teacher ? true : false}>

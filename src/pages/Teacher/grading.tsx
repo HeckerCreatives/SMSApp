@@ -105,13 +105,13 @@ const TeacherGrading: React.FC = () => {
                                 >
                                   Set Grades
                                 </MDBBtn>
-                                <MDBBtn 
+                                {/* <MDBBtn 
                                 className="mx-1"
                                   onClick={() => {
                                     toggleShow1(true, i);
                                   }}>
                                   Edit Grades
-                                </MDBBtn>
+                                </MDBBtn> */}
                               </td>
                         </tr>
                       ))
