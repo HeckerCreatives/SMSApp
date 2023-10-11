@@ -74,6 +74,7 @@ const TeacherAdvisoryList: React.FC = () => {
             </div>
             
             <IonCardContent>
+            <MDBTypography tag={`h2`}>Year and Section: {`${students[0]?.student?.yearandsection.year} - ${students[0]?.student?.yearandsection.section}`}</MDBTypography>
                 <MDBTable className="table-bordered text-center" responsive>
                     <MDBTableHead>
                         <tr>

@@ -89,6 +89,9 @@ const GradingStudent: React.FC<ContainerProps> = (props) => {
     const [q1qa1, setQ1qa1] = useState(0)
     const [q1hpsqa1, setQ1hpsqa1] = useState(0)
 
+    const [q1ig, setQ1IG] = useState(0)
+    const [q1qg, setQ1QG] = useState(0)
+
     const { basicModal, data } = props
     
     useEffect(() => {
@@ -158,7 +161,7 @@ const GradingStudent: React.FC<ContainerProps> = (props) => {
       const totalws = q1ps * wsdata
       setQ1WS(totalws)
     },[q1b1, q1b2, q1b3, q1b4, q1b5, q1b6, q1b7, q1b8, q1b9, q1b10,q1hps1,q1hps2,q1hps3,q1hps4,q1hps5,q1hps6,q1hps7,q1hps8,q1hps9,
-      q1hps10, data, q1ps, q1ws])
+      q1hps10, data, q1ps, q1ws, q1total])
     // ====================================
 
     useEffect(() => {
@@ -185,7 +188,7 @@ const GradingStudent: React.FC<ContainerProps> = (props) => {
         const totalws = q1ptps * wsdata
         setQ1PtWS(totalws)
       },[q1pt1, q1pt2, q1pt3, q1pt4, q1pt5, q1pt6, q1pt7, q1pt8, q1pt9, q1pt10,q1hpspt1,q1hpspt2,q1hpspt3,q1hpspt4,q1hpspt5,q1hpspt6,q1hpspt7,q1hpspt8,q1hpspt9,
-        q1hpspt10, data, q1ptps, q1ptws])
+        q1hpspt10, data, q1ptps, q1ptws, q1pttotal])
       // ===============================================
 
       useEffect(() => {
@@ -199,6 +202,19 @@ const GradingStudent: React.FC<ContainerProps> = (props) => {
         setQ1QAWS(totalws)
 
       },[q1qa1,q1hpsqa1, data, q1qaps, q1qaws])
+
+      useEffect(() => {
+        const totalig = q1ws + q1ptws + q1qaws
+        setQ1IG(totalig)
+
+        if(totalig >= 60){
+          const qg = ((totalig - 60) / 1.6) + 75;
+          setQ1QG(qg)
+        } else if (totalig < 60){
+          const qg = (totalig / 4) + 60
+          setQ1QG(qg)
+        }
+      },[q1ws,q1ptws,q1qaws]) 
 
     const handleChange = () => {
       props.onbasicModal(false)
@@ -224,13 +240,15 @@ const GradingStudent: React.FC<ContainerProps> = (props) => {
             writtenworksWS: q1ws,
             performancetaskHighestTotal: performancetaskhightotal,
             performancetask: performancetask,
-            perfomancetaskTotal: q1pttotal,
+            performancetaskTotal: q1pttotal,
             performancetaskPS: q1ptps,
             performancetaskWS: q1ptws,
             quarterlyassessmentHighestTotal: q1hpsqa1,
-            quaerterlyassessment: q1qa1,
+            quarterlyassessment: q1qa1,
             quarterlyassessmentPS: q1qaps,
-            quarterlyassessmentWS: q1qaws
+            quarterlyassessmentWS: q1qaws,
+            initialgrade: q1ig,
+            quarterlygrade: q1qg,
           }
         )
       })
@@ -435,6 +453,7 @@ const GradingStudent: React.FC<ContainerProps> = (props) => {
                     <MDBTypography>WS</MDBTypography>
                     <MDBInput disabled type="number" value={q1ws.toFixed(2)}/>
                     </MDBCol>
+                    
                     </MDBRow>                    
                 </MDBRow>
 
@@ -560,6 +579,14 @@ const GradingStudent: React.FC<ContainerProps> = (props) => {
                     <MDBCol className="border">
                     <MDBTypography>WS</MDBTypography>
                     <MDBInput  type="number" disabled value={q1qaws.toFixed(2)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Initial Grade</MDBTypography>
+                    <MDBInput disabled type="number" value={q1ig.toFixed(2)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Quarterly Grade</MDBTypography>
+                    <MDBInput disabled type="number" value={q1qg.toFixed(2)}/>
                     </MDBCol>
                 </MDBRow>
 

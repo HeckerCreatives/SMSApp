@@ -12,6 +12,7 @@ import {
   MDBCardText,
   MDBRow,
   MDBCol,
+  MDBTypography,
 } from 'mdb-react-ui-kit';
 // import { env } from "process";
 import "./index.css"
@@ -41,7 +42,9 @@ const ViewStudentsDetails: React.FC<ContainerProps> = (props) => {
       .then(result => result.json())
       .then(data => {
         setGrade(data.data)
+        
       })
+      // console.log(grade[0].writtenworksTotal)
     },[data])
 
     return(
@@ -78,572 +81,460 @@ const ViewStudentsDetails: React.FC<ContainerProps> = (props) => {
                     <MDBCardText className="fw-bold text-center">QUARTER 1</MDBCardText>
                     </MDBCol>
                 </MDBRow>
-                <MDBRow>
-                    <MDBCol>
-                    <MDBTable className="table-bordered text-center" responsive>
-                    <MDBTableHead>
-                        <tr>
-                        <th scope='col' colSpan={13}>{`WRITTEN WORKS (20%)`}</th>
-                        <th scope='col' colSpan={13}>{`PERFORMANCE TASKS (20%)`}</th>
-                        <th scope='col' colSpan={13}>{`QUARTERLY ASSESSMENT (20%)`}</th>
-                        </tr>
-                    </MDBTableHead>
-                    <MDBTableBody>
-                      <tr>
-                        <td scope='col'>1</td>
-                        <td scope='col'>2</td>
-                        <td scope='col'>3</td>
-                        <td scope='col'>4</td>
-                        <td scope='col'>5</td>
-                        <td scope='col'>6</td>
-                        <td scope='col'>7</td>
-                        <td scope='col'>8</td>
-                        <td scope='col'>9</td>
-                        <td scope='col'>10</td>
-                        <td scope='col'>Total</td>
-                        <td scope='col'>PS</td>
-                        <td scope='col'>WS</td>
-                        <td scope='col'>1</td>
-                        <td scope='col'>2</td>
-                        <td scope='col'>3</td>
-                        <td scope='col'>4</td>
-                        <td scope='col'>5</td>
-                        <td scope='col'>6</td>
-                        <td scope='col'>7</td>
-                        <td scope='col'>8</td>
-                        <td scope='col'>9</td>
-                        <td scope='col'>10</td>
-                        <td scope='col'>Total</td>
-                        <td scope='col'>PS</td>
-                        <td scope='col'>WS</td>
-                        <td scope='col'>1</td>
-                        <td scope='col'>PS</td>
-                        <td scope='col'>WS</td>
-                      </tr>
-                      {/* DATA DITO SA BABA */}
-                      <tr>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                      </tr>
-                    </MDBTableBody>
-                </MDBTable>
+                <MDBRow className="my-3 text-center border">
+                  <MDBTypography>{`WRITTEN WORKS ${data?.subject?.writtenwork}%`}</MDBTypography>
+                    { grade.length !== 0 ?
+                      grade.map((data: any, i) =>(
+                      data.writtenworks.map((item: any, j) => (
+                      <MDBCol className="border">
+                        <MDBTypography>{j+1}</MDBTypography>
+                        <MDBInput  type="number" disabled value={item}/>
+                      </MDBCol>
+                        ))
+                      ))
+                    :
+                    <MDBCol className="border">
+                    <MDBTypography>NO DATA</MDBTypography>
                     </MDBCol>
+                    }
+                    <MDBCol className="border">
+                    <MDBTypography>Total</MDBTypography>
+                    <MDBInput disabled value={grade[0]?.writtenworksTotal?.toFixed(2)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>PS</MDBTypography>
+                    <MDBInput disabled  type="number" value={grade[0]?.writtenworksPS?.toFixed(2)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>WS</MDBTypography>
+                    <MDBInput disabled type="number" value={grade[0]?.writtenworksWS?.toFixed(2)}/>
+                    </MDBCol>                  
                 </MDBRow>
 
+                <MDBRow className="my-3 text-center border">
+                  <MDBTypography>{`PERFORMANCE TASKS ${data?.subject?.performancetask}%`}</MDBTypography>
+                  { grade.length !== 0 ?
+                      grade.map((data: any, i) =>(
+                      data.performancetask.map((item: any, j) => (
+                      <MDBCol className="border">
+                        <MDBTypography>{j+1}</MDBTypography>
+                        <MDBInput  type="number" disabled value={item}/>
+                      </MDBCol>
+                        ))
+                      ))
+                    :
+                    <MDBCol className="border">
+                    <MDBTypography>NO DATA</MDBTypography>
+                    </MDBCol>
+                    }
+                    <MDBCol className="border">
+                    <MDBTypography>Total</MDBTypography>
+                    <MDBInput disabled value={grade[0]?.performancetaskTotal?.toFixed(2)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>PS</MDBTypography>
+                    <MDBInput disabled  type="number" value={grade[0]?.performancetaskPS?.toFixed(2)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>WS</MDBTypography>
+                    <MDBInput disabled type="number" value={grade[0]?.performancetaskWS?.toFixed(2)}/>
+                    </MDBCol>
+                </MDBRow>
+                
+                <MDBRow className="my-3 text-center border">
+                  <MDBTypography>{`QUARTERLY ASSESSMENT ${data?.subject?.quarterlyassessment}%`}</MDBTypography>
+                  
+                    <MDBCol className="border">
+                    <MDBTypography>1</MDBTypography>
+                    <MDBInput  type="number" disabled value={grade[0]?.quarterlyassessment}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>PS</MDBTypography>
+                    <MDBInput  type="number" disabled value={grade[0]?.quarterlyassessmentPS?.toFixed(2)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>WS</MDBTypography>
+                    <MDBInput  type="number" disabled value={grade[0]?.quarterlyassessmentWS?.toFixed(2)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Initial Grade</MDBTypography>
+                    <MDBInput  type="number" disabled value={grade[0]?.initialgrade?.toFixed(2)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Quarterly Grade</MDBTypography>
+                    <MDBInput  type="number" disabled value={grade[0]?.quarterlygrade?.toFixed(2)}/>
+                    </MDBCol>
+                </MDBRow>
                 <br/>
                 <MDBRow>
                     <MDBCol className="">
                     <MDBCardText className="fw-bold text-center">QUARTER 2</MDBCardText>
                     </MDBCol>
                 </MDBRow>
-                <MDBRow>
-                    <MDBCol>
-                    <MDBTable className="table-bordered text-center" responsive>
-                    <MDBTableHead>
-                        <tr>
-                        <th scope='col' colSpan={13}>{`WRITTEN WORKS (20%)`}</th>
-                        <th scope='col' colSpan={13}>{`PERFORMANCE TASKS (20%)`}</th>
-                        <th scope='col' colSpan={13}>{`QUARTERLY ASSESSMENT (20%)`}</th>
-                        </tr>
-                    </MDBTableHead>
-                    <MDBTableBody>
-                      <tr>
-                        <td scope='col'>1</td>
-                        <td scope='col'>2</td>
-                        <td scope='col'>3</td>
-                        <td scope='col'>4</td>
-                        <td scope='col'>5</td>
-                        <td scope='col'>6</td>
-                        <td scope='col'>7</td>
-                        <td scope='col'>8</td>
-                        <td scope='col'>9</td>
-                        <td scope='col'>10</td>
-                        <td scope='col'>Total</td>
-                        <td scope='col'>PS</td>
-                        <td scope='col'>WS</td>
-                        <td scope='col'>1</td>
-                        <td scope='col'>2</td>
-                        <td scope='col'>3</td>
-                        <td scope='col'>4</td>
-                        <td scope='col'>5</td>
-                        <td scope='col'>6</td>
-                        <td scope='col'>7</td>
-                        <td scope='col'>8</td>
-                        <td scope='col'>9</td>
-                        <td scope='col'>10</td>
-                        <td scope='col'>Total</td>
-                        <td scope='col'>PS</td>
-                        <td scope='col'>WS</td>
-                        <td scope='col'>1</td>
-                        <td scope='col'>PS</td>
-                        <td scope='col'>WS</td>
-                      </tr>
-                      {/* DATA DITO SA BABA */}
-                      <tr>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                      </tr>
-                    </MDBTableBody>
-                </MDBTable>
+                {/* <MDBRow className="my-3 text-center border">
+                  <MDBTypography>{`WRITTEN WORKS ${data?.subject?.writtenwork}%`}</MDBTypography>
+                    { grade[1] ?
+                      grade[1].map((data: any, i) =>(
+                      data.writtenworks.map((item: any, j) => (
+                      <MDBCol className="border">
+                        <MDBTypography>{j+1}</MDBTypography>
+                        <MDBInput  type="number" disabled value={item}/>
+                      </MDBCol>
+                        ))
+                      ))
+                    :
+                    <MDBCol className="border">
+                    <MDBTypography>NO DATA</MDBTypography>
+                    </MDBCol>
+                    }
+                    <MDBCol className="border">
+                    <MDBTypography>Total</MDBTypography>
+                    <MDBInput disabled value={grade[0]?.writtenworksTotal?.toFixed(2)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>PS</MDBTypography>
+                    <MDBInput disabled  type="number" value={grade[0]?.writtenworksPS?.toFixed(2)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>WS</MDBTypography>
+                    <MDBInput disabled type="number" value={grade[0]?.writtenworksWS?.toFixed(2)}/>
+                    </MDBCol>                  
+                </MDBRow> */}
+
+                <MDBRow className="my-3 text-center border">
+                  <MDBTypography>{`PERFORMANCE TASKS ${data?.subject?.performancetask}%`}</MDBTypography>
+                    { grade.length !== 0 ?
+                      grade.map((data: any, i) =>(
+                      data.performancetask.map((item: any, j) => (
+                      <MDBCol className="border">
+                        <MDBTypography>{j+1}</MDBTypography>
+                        <MDBInput  type="number" disabled value={item}/>
+                      </MDBCol>
+                        ))
+                      ))
+                    :
+                    <MDBCol className="border">
+                    <MDBTypography>NO DATA</MDBTypography>
+                    </MDBCol>
+                    }
+                    <MDBCol className="border">
+                    <MDBTypography>Total</MDBTypography>
+                    <MDBInput disabled value={grade[0]?.performancetaskTotal?.toFixed(2)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>PS</MDBTypography>
+                    <MDBInput disabled  type="number" value={grade[0]?.performancetaskPS?.toFixed(2)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>WS</MDBTypography>
+                    <MDBInput disabled type="number" value={grade[0]?.performancetaskWS?.toFixed(2)}/>
                     </MDBCol>
                 </MDBRow>
-
+                
+                <MDBRow className="my-3 text-center border">
+                  <MDBTypography>{`QUARTERLY ASSESSMENT ${data?.subject?.quarterlyassessment}%`}</MDBTypography>
+                  
+                    <MDBCol className="border">
+                    <MDBTypography>1</MDBTypography>
+                    <MDBInput  type="number" disabled value={grade[0]?.quarterlyassessment}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>PS</MDBTypography>
+                    <MDBInput  type="number" disabled value={grade[0]?.quarterlyassessmentPS?.toFixed(2)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>WS</MDBTypography>
+                    <MDBInput  type="number" disabled value={grade[0]?.quarterlyassessmentWS?.toFixed(2)}/>
+                    </MDBCol>
+                </MDBRow>
                 <br/>
                 <MDBRow>
                     <MDBCol className="">
                     <MDBCardText className="fw-bold text-center">QUARTER 3</MDBCardText>
                     </MDBCol>
                 </MDBRow>
-                <MDBRow>
-                    <MDBCol>
-                    <MDBTable className="table-bordered text-center" responsive>
-                    <MDBTableHead>
-                        <tr>
-                        <th scope='col' colSpan={13}>{`WRITTEN WORKS (20%)`}</th>
-                        <th scope='col' colSpan={13}>{`PERFORMANCE TASKS (20%)`}</th>
-                        <th scope='col' colSpan={13}>{`QUARTERLY ASSESSMENT (20%)`}</th>
-                        </tr>
-                    </MDBTableHead>
-                    <MDBTableBody>
-                      <tr>
-                        <td scope='col'>1</td>
-                        <td scope='col'>2</td>
-                        <td scope='col'>3</td>
-                        <td scope='col'>4</td>
-                        <td scope='col'>5</td>
-                        <td scope='col'>6</td>
-                        <td scope='col'>7</td>
-                        <td scope='col'>8</td>
-                        <td scope='col'>9</td>
-                        <td scope='col'>10</td>
-                        <td scope='col'>Total</td>
-                        <td scope='col'>PS</td>
-                        <td scope='col'>WS</td>
-                        <td scope='col'>1</td>
-                        <td scope='col'>2</td>
-                        <td scope='col'>3</td>
-                        <td scope='col'>4</td>
-                        <td scope='col'>5</td>
-                        <td scope='col'>6</td>
-                        <td scope='col'>7</td>
-                        <td scope='col'>8</td>
-                        <td scope='col'>9</td>
-                        <td scope='col'>10</td>
-                        <td scope='col'>Total</td>
-                        <td scope='col'>PS</td>
-                        <td scope='col'>WS</td>
-                        <td scope='col'>1</td>
-                        <td scope='col'>PS</td>
-                        <td scope='col'>WS</td>
-                      </tr>
-                      {/* DATA DITO SA BABA */}
-                      <tr>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                      </tr>
-                    </MDBTableBody>
-                </MDBTable>
+                <MDBRow className="my-3 text-center border">
+                  <MDBTypography>{`WRITTEN WORKS ${data?.subject?.writtenwork}%`}</MDBTypography>
+                  
+
+                    <MDBCol className="border">
+                    <MDBTypography>1</MDBTypography>
+                    <MDBInput  type="number" disabled />
                     </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>2</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>3</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>4</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>5</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>6</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>7</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+
+                    <MDBRow className="mx-0 my-2">
+                    <MDBCol className="border">
+                    <MDBTypography>8</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>9</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>10</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Total</MDBTypography>
+                    <MDBInput disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>PS</MDBTypography>
+                    <MDBInput disabled  type="number" />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>WS</MDBTypography>
+                    <MDBInput disabled type="number" />
+                    </MDBCol>
+                    </MDBRow>                    
                 </MDBRow>
 
+                <MDBRow className="my-3 text-center border">
+                  <MDBTypography>{`PERFORMANCE TASKS ${data?.subject?.performancetask}%`}</MDBTypography>
+
+                    <MDBCol className="border">
+                    <MDBTypography>1</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>2</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>3</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>4</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>5</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>6</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>7</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    
+                    <MDBRow className="mx-0 my-2">
+                    <MDBCol className="border">
+                    <MDBTypography>8</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>9</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>10</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Total</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>PS</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>WS</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    </MDBRow>  
+                    
+                </MDBRow>
+                
+                <MDBRow className="my-3 text-center border">
+                  <MDBTypography>{`QUARTERLY ASSESSMENT ${data?.subject?.quarterlyassessment}%`}</MDBTypography>
+                  
+                    <MDBCol className="border">
+                    <MDBTypography>1</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>PS</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>WS</MDBTypography>
+                    <MDBInput  type="number" disabled/>
+                    </MDBCol>
+                </MDBRow>
                 <br/>
                 <MDBRow>
                     <MDBCol className="">
                     <MDBCardText className="fw-bold text-center">QUARTER 4</MDBCardText>
                     </MDBCol>
                 </MDBRow>
-                <MDBRow>
-                    <MDBCol>
-                    <MDBTable className="table-bordered text-center" responsive>
-                    <MDBTableHead>
-                        <tr>
-                        <th scope='col' colSpan={13}>{`WRITTEN WORKS (20%)`}</th>
-                        <th scope='col' colSpan={13}>{`PERFORMANCE TASKS (20%)`}</th>
-                        <th scope='col' colSpan={13}>{`QUARTERLY ASSESSMENT (20%)`}</th>
-                        </tr>
-                    </MDBTableHead>
-                    <MDBTableBody>
-                      <tr>
-                        <td scope='col'>1</td>
-                        <td scope='col'>2</td>
-                        <td scope='col'>3</td>
-                        <td scope='col'>4</td>
-                        <td scope='col'>5</td>
-                        <td scope='col'>6</td>
-                        <td scope='col'>7</td>
-                        <td scope='col'>8</td>
-                        <td scope='col'>9</td>
-                        <td scope='col'>10</td>
-                        <td scope='col'>Total</td>
-                        <td scope='col'>PS</td>
-                        <td scope='col'>WS</td>
-                        <td scope='col'>1</td>
-                        <td scope='col'>2</td>
-                        <td scope='col'>3</td>
-                        <td scope='col'>4</td>
-                        <td scope='col'>5</td>
-                        <td scope='col'>6</td>
-                        <td scope='col'>7</td>
-                        <td scope='col'>8</td>
-                        <td scope='col'>9</td>
-                        <td scope='col'>10</td>
-                        <td scope='col'>Total</td>
-                        <td scope='col'>PS</td>
-                        <td scope='col'>WS</td>
-                        <td scope='col'>1</td>
-                        <td scope='col'>PS</td>
-                        <td scope='col'>WS</td>
-                      </tr>
-                      {/* DATA DITO SA BABA */}
-                      <tr>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                        <td scope='col'>
-                        <MDBInput readOnly type="number"/>
-                        </td>
-                      </tr>
-                    </MDBTableBody>
-                </MDBTable>
+                <MDBRow className="my-3 text-center border">
+                  <MDBTypography>{`WRITTEN WORKS ${data?.subject?.writtenwork}%`}</MDBTypography>
+                  
+
+                    <MDBCol className="border">
+                    <MDBTypography>1</MDBTypography>
+                    <MDBInput  type="number" disabled />
                     </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>2</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>3</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>4</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>5</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>6</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>7</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+
+                    <MDBRow className="mx-0 my-2">
+                    <MDBCol className="border">
+                    <MDBTypography>8</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>9</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>10</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Total</MDBTypography>
+                    <MDBInput disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>PS</MDBTypography>
+                    <MDBInput disabled  type="number" />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>WS</MDBTypography>
+                    <MDBInput disabled type="number" />
+                    </MDBCol>
+                    </MDBRow>                    
                 </MDBRow>
 
+                <MDBRow className="my-3 text-center border">
+                  <MDBTypography>{`PERFORMANCE TASKS ${data?.subject?.performancetask}%`}</MDBTypography>
+
+                    <MDBCol className="border">
+                    <MDBTypography>1</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>2</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>3</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>4</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>5</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>6</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>7</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    
+                    <MDBRow className="mx-0 my-2">
+                    <MDBCol className="border">
+                    <MDBTypography>8</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>9</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>10</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Total</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>PS</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>WS</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    </MDBRow>  
+                    
+                </MDBRow>
+                
+                <MDBRow className="my-3 text-center border">
+                  <MDBTypography>{`QUARTERLY ASSESSMENT ${data?.subject?.quarterlyassessment}%`}</MDBTypography>
+                  
+                    <MDBCol className="border">
+                    <MDBTypography>1</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>PS</MDBTypography>
+                    <MDBInput  type="number" disabled />
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>WS</MDBTypography>
+                    <MDBInput  type="number" disabled/>
+                    </MDBCol>
+                </MDBRow>
                 <br/>
                 <MDBRow>
                     <MDBCol className="">
@@ -667,7 +558,7 @@ const ViewStudentsDetails: React.FC<ContainerProps> = (props) => {
                         <tr>
                             <td>{data?.subject?.subjectname}</td>
                             <td>
-                                <MDBInput disabled readOnly/>
+                                <MDBInput disabled readOnly value={grade[0]?.quarterlygrade?.toFixed(2)}/>
                             </td>
                             <td>
                                 <MDBInput disabled readOnly/>

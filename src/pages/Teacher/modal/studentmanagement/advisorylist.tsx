@@ -96,11 +96,6 @@ const ViewAdvisoryStudentsDetails: React.FC<ContainerProps> = (props) => {
                 </MDBRow>
                 <br/>
                 <MDBRow>
-                    <MDBCol className="">
-                    <MDBCardText className="fw-bold">Full Grades On Subject: {data?.subject?.subjectname}</MDBCardText>
-                    </MDBCol>
-                </MDBRow>
-                <MDBRow>
                     <MDBCol>
                     <MDBTable className="table-bordered text-center" responsive>
                     <MDBTableHead>
@@ -121,7 +116,11 @@ const ViewAdvisoryStudentsDetails: React.FC<ContainerProps> = (props) => {
                         {grade
                           .filter((gradeData: any) => gradeData.subject._id === subjectData._id)
                           .map((filteredGradeData: any, j) => (
-                            <td key={j}>{filteredGradeData.grade || "no data"}</td>
+                            <td key={j}>{filteredGradeData.quarterlygrade || "no data"}</td>
+                            
+                          ))}
+                          {Array.from({ length: Math.max(0, 4 - grade.filter((gradeData: any) => gradeData.subject._id === subjectData._id).length) }).map((_, k) => (
+                              <td key={k}></td>
                           ))}
                         <td>
                           <MDBInput label="Remarks" name="remarks" type="number"/>
