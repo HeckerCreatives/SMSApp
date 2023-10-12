@@ -8,7 +8,7 @@ const TeacherSubjectList: React.FC = () => {
   const [rowdata, setRowdata] = useState([]);
   const [basicModal, setBasicModal] = useState(false);
   const [viewModal, setViewModal] = useState(false);
-
+  const auth = JSON.parse(localStorage.getItem("auth"))
   const toggleShow = (open: boolean, data: any) => {
     setViewModal(open)
     setRowdata(data)
@@ -20,10 +20,11 @@ const TeacherSubjectList: React.FC = () => {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({id: "651a81b74795523dca9b5360"})
+      body: JSON.stringify({id: auth._id})
     })
     .then(result => result.json())
     .then(data => {
+      
       if(data.message === "success"){
         setMySubject(data.data)
       }
@@ -97,7 +98,7 @@ const TeacherSubjectList: React.FC = () => {
                         ))
                       :
                           <tr>
-                            <td>
+                            <td colSpan={5}>
                               No data
                             </td>
                           </tr>

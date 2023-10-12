@@ -27,17 +27,17 @@ import StudentDashboard from './Student/dashboard';
 import StudentGrades from './Student/grades';
 import StudentProfile from './Student/profile';
 const Dashboard: React.FC = () => {
-  const authJSON = localStorage.getItem("auth");
+  const auth = JSON.parse(localStorage.getItem("auth"))
   const [didToggle, setDidToggle] = useState(
     window.innerWidth > 768 ? false : true
   );
-
+  
   // const role = "Administrator"
-  const role = "Teacher"
+  // const role = "Teacher"
   // const role = "Student"
   let link;
-  switch(role){
-    case 'Administrator':
+  switch(auth.role?.role){
+    case 'admin':
     link = [
       {
         name: "Dashboard",
@@ -107,7 +107,7 @@ const Dashboard: React.FC = () => {
       },
     ];
     break;
-    case 'Teacher':
+    case 'teacher':
     link = [
       {
         name: "Dashboard",
@@ -156,7 +156,7 @@ const Dashboard: React.FC = () => {
       },
     ];
     break;
-    case 'Student':
+    case 'student':
     link = [
       {
         name: "Dashboard",

@@ -116,7 +116,7 @@ const ViewAdvisoryStudentsDetails: React.FC<ContainerProps> = (props) => {
                         {grade
                           .filter((gradeData: any) => gradeData.subject._id === subjectData._id)
                           .map((filteredGradeData: any, j) => (
-                            <td key={j}>{filteredGradeData.quarterlygrade || "no data"}</td>
+                            <td key={j}>{filteredGradeData.quarterlygrade.toFixed(2) || "no data"}</td>
                             
                           ))}
                           {Array.from({ length: Math.max(0, 4 - grade.filter((gradeData: any) => gradeData.subject._id === subjectData._id).length) }).map((_, k) => (

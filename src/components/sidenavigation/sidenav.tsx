@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { IonIcon } from "@ionic/react";
 import { chevronBackOutline, chevronUpOutline, chevronDownOutline, chevronForwardOutline, } from 'ionicons/icons';
 import { MDBIcon } from "mdb-react-ui-kit";
-
+import {useIonToast} from '@ionic/react';
 interface ContainerProps { links: any, didToggle: any, setDidToggle: any, }
 
 const SideNavigation: React.FC<ContainerProps>  = (props) => {
@@ -12,7 +12,20 @@ const SideNavigation: React.FC<ContainerProps>  = (props) => {
     const navigate = useHistory();
     const activePath = window.location.pathname;
     const { links, didToggle, setDidToggle } = props;
-    
+    const [present] = useIonToast();
+    const handlelogout = () => {
+      present({
+        message: "Logging Out",
+        duration: 3000,
+        position: "bottom",
+      }).then(() => {
+        setTimeout(() => {
+          localStorage.clear();
+          window.location.href = "/"
+        }, 2000);
+      })
+      
+    }
     const handlenavigate = (path: string) =>{
         navigate.push(path)
     }
@@ -139,15 +152,15 @@ const SideNavigation: React.FC<ContainerProps>  = (props) => {
             </div>
           ))}
         </div>
-        {/* <div className="sidebar-footer py-3">
+        <div className="sidebar-footer py-3">
           <div
             title="Logout"
-            className="pe-5 py-0 fs-6 shadow-0 text-warning fw-bold sidebar-logout-btn"
-            onClick={handleLogout}
+            className="pe-5 py-0 fs-6 shadow-0 text-white fw-bold sidebar-logout-btn"
+            onClick={handlelogout}
           >
             <MDBIcon fas icon="sign-out-alt" size="xl" className="mx-4" /> LOGOUT
           </div>
-        </div> */}
+        </div>
         {window.innerWidth < 768 && (
           <div
             className="custom-backdrop"

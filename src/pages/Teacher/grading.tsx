@@ -11,7 +11,7 @@ const TeacherGrading: React.FC = () => {
   const [basicModal, setBasicModal] = useState(false);
   const [viewModal, setViewModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
-
+  const auth = JSON.parse(localStorage.getItem("auth"))
   const toggleShow = (open: boolean, rowIndex: number) => {
       // Use the rowIndex to access the corresponding student data
       const rowData = students[rowIndex];
@@ -35,12 +35,12 @@ const TeacherGrading: React.FC = () => {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({id: "651a81b74795523dca9b5360"}) // teacher id
+        body: JSON.stringify({id: auth._id}) // teacher id
     })
     .then(result => result.json())
     .then(data => {
         if(data.message === "success"){
-            setStudents(data.data)
+          setStudents(data.data.filter((d:any) => d !== null))
         }
     })
   },[])

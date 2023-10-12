@@ -18,6 +18,7 @@ interface ContainerProps { basicModal: boolean, onbasicModal: any }
 const AddList: React.FC<ContainerProps> = (props) => {
     const [present] = useIonToast();
     const [openmodal, setopenmodal] = useState(false)
+    const [yearselected, setyearselected] = useState("")
     const { basicModal } = props
     const currentYear = new Date().getFullYear();
     const years = Array.from({ length: 10 }, (_, index) => currentYear + index);
@@ -32,7 +33,7 @@ const AddList: React.FC<ContainerProps> = (props) => {
 
     const addlist = (e: any) => {
       e.preventDefault();
-      const { year, section } = e.target;
+      const { section } = e.target;
       fetch(`${import.meta.env.VITE_ENDPOINT_URL}yearandsection/create`, {
         method: "POST",
         headers: {
@@ -40,7 +41,7 @@ const AddList: React.FC<ContainerProps> = (props) => {
         },
         body: JSON.stringify(
           {
-            year: year.value,
+            year: yearselected,
             section: section.value,
           }
         )
@@ -80,7 +81,8 @@ const AddList: React.FC<ContainerProps> = (props) => {
             </MDBModalHeader>
             <MDBModalBody>
               <MDBCardText>Year:</MDBCardText>
-              <select className="bg-transparent text-dark p-1">
+              <select className="bg-transparent text-dark p-1" onChange={(e:any) => setyearselected(e.target.value)}>
+              <option disabled selected>Please Select</option>
               {years.map((year, index) => (
                 <option key={`year${index}`} value={year}>
                   {year}

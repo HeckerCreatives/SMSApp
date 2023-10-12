@@ -9,7 +9,7 @@ const TeacherList: React.FC = () => {
   const [subjectdata, setSubjectData] = useState("");
   const [basicModal, setBasicModal] = useState(false);
   const [viewModal, setViewModal] = useState(false);
-
+  const auth = JSON.parse(localStorage.getItem("auth"))
   const toggleShow = (open: boolean, rowIndex: number) => {
       // Use the rowIndex to access the corresponding student data
       const rowData = students[rowIndex];
@@ -26,7 +26,7 @@ const TeacherList: React.FC = () => {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({id: "651a81b74795523dca9b5360"}) // teacher id
+        body: JSON.stringify({id: auth._id}) // teacher id
     })
     .then(result => result.json())
     .then(data => {
@@ -83,7 +83,7 @@ const TeacherList: React.FC = () => {
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
-                    {students.length !== 0 ? (
+                    {students.length !== 0 && students[0] !== null ? 
                       students.map((data: any, i) => (
                         <tr key={`subjects-${i}`}>
                           <td>{data.student.firstname + " " + data.student.middlename + " " + data.student.lastname}</td>
@@ -101,7 +101,7 @@ const TeacherList: React.FC = () => {
                               </td>
                         </tr>
                       ))
-                    ) : (
+                     : (
                       <tr>
                         <td colSpan={4}>No students found</td>
                       </tr>

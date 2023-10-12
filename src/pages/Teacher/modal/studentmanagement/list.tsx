@@ -22,7 +22,10 @@ const ViewStudentsDetails: React.FC<ContainerProps> = (props) => {
     const [present] = useIonToast();
     const { basicModal, data, subject } = props
     const [openmodal, setopenmodal] = useState(false)
-    const [grade, setGrade] = useState([])
+    const [grade, setGrade] = useState<any[]>([]);
+    const [grade2, setGrade2] = useState<any[]>([]);
+    const [grade3, setGrade3] = useState<any[]>([]);
+    const [grade4, setGrade4] = useState<any[]>([]);
     useEffect(() => {
     setopenmodal(basicModal)
     },[basicModal])
@@ -41,8 +44,11 @@ const ViewStudentsDetails: React.FC<ContainerProps> = (props) => {
       })
       .then(result => result.json())
       .then(data => {
-        setGrade(data.data)
-        
+        setGrade(data.data[0])
+        setGrade2(data.data[1])
+        setGrade3(data.data[2])
+        setGrade4(data.data[3])
+        // console.log(data)
       })
       // console.log(grade[0].writtenworksTotal)
     },[data])
@@ -83,15 +89,13 @@ const ViewStudentsDetails: React.FC<ContainerProps> = (props) => {
                 </MDBRow>
                 <MDBRow className="my-3 text-center border">
                   <MDBTypography>{`WRITTEN WORKS ${data?.subject?.writtenwork}%`}</MDBTypography>
-                    { grade.length !== 0 ?
-                      grade.map((data: any, i) =>(
-                      data.writtenworks.map((item: any, j) => (
-                      <MDBCol className="border">
-                        <MDBTypography>{j+1}</MDBTypography>
-                        <MDBInput  type="number" disabled value={item}/>
-                      </MDBCol>
-                        ))
-                      ))
+                    { grade ?
+                      grade?.writtenworks?.map((item: any, j) => (
+                        <MDBCol className="border">
+                          <MDBTypography>{j+1}</MDBTypography>
+                          <MDBInput  type="number" disabled value={item}/>
+                        </MDBCol>
+                          ))
                     :
                     <MDBCol className="border">
                     <MDBTypography>NO DATA</MDBTypography>
@@ -99,28 +103,26 @@ const ViewStudentsDetails: React.FC<ContainerProps> = (props) => {
                     }
                     <MDBCol className="border">
                     <MDBTypography>Total</MDBTypography>
-                    <MDBInput disabled value={grade[0]?.writtenworksTotal?.toFixed(2)}/>
+                    <MDBInput disabled value={grade?.writtenworksTotal?.toFixed(2)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>PS</MDBTypography>
-                    <MDBInput disabled  type="number" value={grade[0]?.writtenworksPS?.toFixed(2)}/>
+                    <MDBInput disabled  type="number" value={grade?.writtenworksPS?.toFixed(2)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>WS</MDBTypography>
-                    <MDBInput disabled type="number" value={grade[0]?.writtenworksWS?.toFixed(2)}/>
+                    <MDBInput disabled type="number" value={grade?.writtenworksWS?.toFixed(2)}/>
                     </MDBCol>                  
                 </MDBRow>
 
                 <MDBRow className="my-3 text-center border">
                   <MDBTypography>{`PERFORMANCE TASKS ${data?.subject?.performancetask}%`}</MDBTypography>
-                  { grade.length !== 0 ?
-                      grade.map((data: any, i) =>(
-                      data.performancetask.map((item: any, j) => (
-                      <MDBCol className="border">
-                        <MDBTypography>{j+1}</MDBTypography>
-                        <MDBInput  type="number" disabled value={item}/>
-                      </MDBCol>
-                        ))
+                  { grade ?
+                      grade?.performancetask?.map((item: any, j) => (
+                        <MDBCol className="border">
+                          <MDBTypography>{j+1}</MDBTypography>
+                          <MDBInput  type="number" disabled value={item}/>
+                        </MDBCol>
                       ))
                     :
                     <MDBCol className="border">
@@ -129,15 +131,15 @@ const ViewStudentsDetails: React.FC<ContainerProps> = (props) => {
                     }
                     <MDBCol className="border">
                     <MDBTypography>Total</MDBTypography>
-                    <MDBInput disabled value={grade[0]?.performancetaskTotal?.toFixed(2)}/>
+                    <MDBInput disabled value={grade?.performancetaskTotal?.toFixed(2)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>PS</MDBTypography>
-                    <MDBInput disabled  type="number" value={grade[0]?.performancetaskPS?.toFixed(2)}/>
+                    <MDBInput disabled  type="number" value={grade?.performancetaskPS?.toFixed(2)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>WS</MDBTypography>
-                    <MDBInput disabled type="number" value={grade[0]?.performancetaskWS?.toFixed(2)}/>
+                    <MDBInput disabled type="number" value={grade?.performancetaskWS?.toFixed(2)}/>
                     </MDBCol>
                 </MDBRow>
                 
@@ -146,23 +148,23 @@ const ViewStudentsDetails: React.FC<ContainerProps> = (props) => {
                   
                     <MDBCol className="border">
                     <MDBTypography>1</MDBTypography>
-                    <MDBInput  type="number" disabled value={grade[0]?.quarterlyassessment}/>
+                    <MDBInput  type="number" disabled value={grade?.quarterlyassessment}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>PS</MDBTypography>
-                    <MDBInput  type="number" disabled value={grade[0]?.quarterlyassessmentPS?.toFixed(2)}/>
+                    <MDBInput  type="number" disabled value={grade?.quarterlyassessmentPS?.toFixed(2)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>WS</MDBTypography>
-                    <MDBInput  type="number" disabled value={grade[0]?.quarterlyassessmentWS?.toFixed(2)}/>
+                    <MDBInput  type="number" disabled value={grade?.quarterlyassessmentWS?.toFixed(2)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Initial Grade</MDBTypography>
-                    <MDBInput  type="number" disabled value={grade[0]?.initialgrade?.toFixed(2)}/>
+                    <MDBInput  type="number" disabled value={grade?.initialgrade?.toFixed(2)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Quarterly Grade</MDBTypography>
-                    <MDBInput  type="number" disabled value={grade[0]?.quarterlygrade?.toFixed(2)}/>
+                    <MDBInput  type="number" disabled value={grade?.quarterlygrade?.toFixed(2)}/>
                     </MDBCol>
                 </MDBRow>
                 <br/>
@@ -171,16 +173,14 @@ const ViewStudentsDetails: React.FC<ContainerProps> = (props) => {
                     <MDBCardText className="fw-bold text-center">QUARTER 2</MDBCardText>
                     </MDBCol>
                 </MDBRow>
-                {/* <MDBRow className="my-3 text-center border">
+                <MDBRow className="my-3 text-center border">
                   <MDBTypography>{`WRITTEN WORKS ${data?.subject?.writtenwork}%`}</MDBTypography>
-                    { grade[1] ?
-                      grade[1].map((data: any, i) =>(
-                      data.writtenworks.map((item: any, j) => (
+                    { grade2 ? 
+                      grade2?.writtenworks?.map((item: any, j) => (
                       <MDBCol className="border">
                         <MDBTypography>{j+1}</MDBTypography>
                         <MDBInput  type="number" disabled value={item}/>
                       </MDBCol>
-                        ))
                       ))
                     :
                     <MDBCol className="border">
@@ -189,28 +189,26 @@ const ViewStudentsDetails: React.FC<ContainerProps> = (props) => {
                     }
                     <MDBCol className="border">
                     <MDBTypography>Total</MDBTypography>
-                    <MDBInput disabled value={grade[0]?.writtenworksTotal?.toFixed(2)}/>
+                    <MDBInput disabled value={grade2?.writtenworksTotal?.toFixed(2)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>PS</MDBTypography>
-                    <MDBInput disabled  type="number" value={grade[0]?.writtenworksPS?.toFixed(2)}/>
+                    <MDBInput disabled  type="number" value={grade2?.writtenworksPS?.toFixed(2)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>WS</MDBTypography>
-                    <MDBInput disabled type="number" value={grade[0]?.writtenworksWS?.toFixed(2)}/>
+                    <MDBInput disabled type="number" value={grade2?.writtenworksWS?.toFixed(2)}/>
                     </MDBCol>                  
-                </MDBRow> */}
+                </MDBRow>
 
                 <MDBRow className="my-3 text-center border">
                   <MDBTypography>{`PERFORMANCE TASKS ${data?.subject?.performancetask}%`}</MDBTypography>
-                    { grade.length !== 0 ?
-                      grade.map((data: any, i) =>(
-                      data.performancetask.map((item: any, j) => (
-                      <MDBCol className="border">
-                        <MDBTypography>{j+1}</MDBTypography>
-                        <MDBInput  type="number" disabled value={item}/>
-                      </MDBCol>
-                        ))
+                    { grade2 ?
+                       grade2?.performancetask?.map((item: any, j) => (
+                        <MDBCol className="border">
+                          <MDBTypography>{j+1}</MDBTypography>
+                          <MDBInput  type="number" disabled value={item}/>
+                        </MDBCol>
                       ))
                     :
                     <MDBCol className="border">
@@ -219,15 +217,15 @@ const ViewStudentsDetails: React.FC<ContainerProps> = (props) => {
                     }
                     <MDBCol className="border">
                     <MDBTypography>Total</MDBTypography>
-                    <MDBInput disabled value={grade[0]?.performancetaskTotal?.toFixed(2)}/>
+                    <MDBInput disabled value={grade2?.performancetaskTotal?.toFixed(2)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>PS</MDBTypography>
-                    <MDBInput disabled  type="number" value={grade[0]?.performancetaskPS?.toFixed(2)}/>
+                    <MDBInput disabled  type="number" value={grade2?.performancetaskPS?.toFixed(2)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>WS</MDBTypography>
-                    <MDBInput disabled type="number" value={grade[0]?.performancetaskWS?.toFixed(2)}/>
+                    <MDBInput disabled type="number" value={grade2?.performancetaskWS?.toFixed(2)}/>
                     </MDBCol>
                 </MDBRow>
                 
@@ -236,15 +234,23 @@ const ViewStudentsDetails: React.FC<ContainerProps> = (props) => {
                   
                     <MDBCol className="border">
                     <MDBTypography>1</MDBTypography>
-                    <MDBInput  type="number" disabled value={grade[0]?.quarterlyassessment}/>
+                    <MDBInput  type="number" disabled value={grade2?.quarterlyassessment}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>PS</MDBTypography>
-                    <MDBInput  type="number" disabled value={grade[0]?.quarterlyassessmentPS?.toFixed(2)}/>
+                    <MDBInput  type="number" disabled value={grade2?.quarterlyassessmentPS?.toFixed(2)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>WS</MDBTypography>
-                    <MDBInput  type="number" disabled value={grade[0]?.quarterlyassessmentWS?.toFixed(2)}/>
+                    <MDBInput  type="number" disabled value={grade2?.quarterlyassessmentWS?.toFixed(2)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Initial Grade</MDBTypography>
+                    <MDBInput  type="number" disabled value={grade2?.initialgrade?.toFixed(2)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Quarterly Grade</MDBTypography>
+                    <MDBInput  type="number" disabled value={grade2?.quarterlygrade?.toFixed(2)}/>
                     </MDBCol>
                 </MDBRow>
                 <br/>
@@ -255,124 +261,58 @@ const ViewStudentsDetails: React.FC<ContainerProps> = (props) => {
                 </MDBRow>
                 <MDBRow className="my-3 text-center border">
                   <MDBTypography>{`WRITTEN WORKS ${data?.subject?.writtenwork}%`}</MDBTypography>
-                  
-
+                    { grade3? 
+                      grade3?.writtenworks?.map((item: any, j) => (
+                      <MDBCol className="border">
+                        <MDBTypography>{j+1}</MDBTypography>
+                        <MDBInput  type="number" disabled value={item}/>
+                      </MDBCol>
+                      ))
+                    :
                     <MDBCol className="border">
-                    <MDBTypography>1</MDBTypography>
-                    <MDBInput  type="number" disabled />
+                    <MDBTypography>NO DATA</MDBTypography>
                     </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>2</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>3</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>4</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>5</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>6</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>7</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-
-                    <MDBRow className="mx-0 my-2">
-                    <MDBCol className="border">
-                    <MDBTypography>8</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>9</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>10</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
+                    }
                     <MDBCol className="border">
                     <MDBTypography>Total</MDBTypography>
-                    <MDBInput disabled />
+                    <MDBInput disabled value={grade3?.writtenworksTotal?.toFixed(2)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>PS</MDBTypography>
-                    <MDBInput disabled  type="number" />
+                    <MDBInput disabled  type="number" value={grade3?.writtenworksPS?.toFixed(2)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>WS</MDBTypography>
-                    <MDBInput disabled type="number" />
-                    </MDBCol>
-                    </MDBRow>                    
+                    <MDBInput disabled type="number" value={grade3?.writtenworksWS?.toFixed(2)}/>
+                    </MDBCol>                  
                 </MDBRow>
 
                 <MDBRow className="my-3 text-center border">
                   <MDBTypography>{`PERFORMANCE TASKS ${data?.subject?.performancetask}%`}</MDBTypography>
-
+                    { grade3 ?
+                       grade3?.performancetask?.map((item: any, j) => (
+                        <MDBCol className="border">
+                          <MDBTypography>{j+1}</MDBTypography>
+                          <MDBInput  type="number" disabled value={item}/>
+                        </MDBCol>
+                      ))
+                    :
                     <MDBCol className="border">
-                    <MDBTypography>1</MDBTypography>
-                    <MDBInput  type="number" disabled />
+                    <MDBTypography>NO DATA</MDBTypography>
                     </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>2</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>3</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>4</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>5</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>6</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>7</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    
-                    <MDBRow className="mx-0 my-2">
-                    <MDBCol className="border">
-                    <MDBTypography>8</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>9</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>10</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
+                    }
                     <MDBCol className="border">
                     <MDBTypography>Total</MDBTypography>
-                    <MDBInput  type="number" disabled />
+                    <MDBInput disabled value={grade3?.performancetaskTotal?.toFixed(2)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>PS</MDBTypography>
-                    <MDBInput  type="number" disabled />
+                    <MDBInput disabled  type="number" value={grade3?.performancetaskPS?.toFixed(2)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>WS</MDBTypography>
-                    <MDBInput  type="number" disabled />
+                    <MDBInput disabled type="number" value={grade3?.performancetaskWS?.toFixed(2)}/>
                     </MDBCol>
-                    </MDBRow>  
-                    
                 </MDBRow>
                 
                 <MDBRow className="my-3 text-center border">
@@ -380,15 +320,23 @@ const ViewStudentsDetails: React.FC<ContainerProps> = (props) => {
                   
                     <MDBCol className="border">
                     <MDBTypography>1</MDBTypography>
-                    <MDBInput  type="number" disabled />
+                    <MDBInput  type="number" disabled value={grade3?.quarterlyassessment}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>PS</MDBTypography>
-                    <MDBInput  type="number" disabled />
+                    <MDBInput  type="number" disabled value={grade3?.quarterlyassessmentPS?.toFixed(2)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>WS</MDBTypography>
-                    <MDBInput  type="number" disabled/>
+                    <MDBInput  type="number" disabled value={grade3?.quarterlyassessmentWS?.toFixed(2)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Initial Grade</MDBTypography>
+                    <MDBInput  type="number" disabled value={grade3?.initialgrade?.toFixed(2)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Quarterly Grade</MDBTypography>
+                    <MDBInput  type="number" disabled value={grade3?.quarterlygrade?.toFixed(2)}/>
                     </MDBCol>
                 </MDBRow>
                 <br/>
@@ -399,124 +347,58 @@ const ViewStudentsDetails: React.FC<ContainerProps> = (props) => {
                 </MDBRow>
                 <MDBRow className="my-3 text-center border">
                   <MDBTypography>{`WRITTEN WORKS ${data?.subject?.writtenwork}%`}</MDBTypography>
-                  
-
+                    { grade4? 
+                      grade4?.writtenworks?.map((item: any, j) => (
+                      <MDBCol className="border">
+                        <MDBTypography>{j+1}</MDBTypography>
+                        <MDBInput  type="number" disabled value={item}/>
+                      </MDBCol>
+                      ))
+                    :
                     <MDBCol className="border">
-                    <MDBTypography>1</MDBTypography>
-                    <MDBInput  type="number" disabled />
+                    <MDBTypography>NO DATA</MDBTypography>
                     </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>2</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>3</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>4</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>5</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>6</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>7</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-
-                    <MDBRow className="mx-0 my-2">
-                    <MDBCol className="border">
-                    <MDBTypography>8</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>9</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>10</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
+                    }
                     <MDBCol className="border">
                     <MDBTypography>Total</MDBTypography>
-                    <MDBInput disabled />
+                    <MDBInput disabled value={grade4?.writtenworksTotal?.toFixed(2)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>PS</MDBTypography>
-                    <MDBInput disabled  type="number" />
+                    <MDBInput disabled  type="number" value={grade4?.writtenworksPS?.toFixed(2)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>WS</MDBTypography>
-                    <MDBInput disabled type="number" />
-                    </MDBCol>
-                    </MDBRow>                    
+                    <MDBInput disabled type="number" value={grade4?.writtenworksWS?.toFixed(2)}/>
+                    </MDBCol>                  
                 </MDBRow>
 
                 <MDBRow className="my-3 text-center border">
                   <MDBTypography>{`PERFORMANCE TASKS ${data?.subject?.performancetask}%`}</MDBTypography>
-
+                    { grade4 ?
+                       grade4?.performancetask?.map((item: any, j) => (
+                        <MDBCol className="border">
+                          <MDBTypography>{j+1}</MDBTypography>
+                          <MDBInput  type="number" disabled value={item}/>
+                        </MDBCol>
+                      ))
+                    :
                     <MDBCol className="border">
-                    <MDBTypography>1</MDBTypography>
-                    <MDBInput  type="number" disabled />
+                    <MDBTypography>NO DATA</MDBTypography>
                     </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>2</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>3</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>4</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>5</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>6</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>7</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    
-                    <MDBRow className="mx-0 my-2">
-                    <MDBCol className="border">
-                    <MDBTypography>8</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>9</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
-                    <MDBCol className="border">
-                    <MDBTypography>10</MDBTypography>
-                    <MDBInput  type="number" disabled />
-                    </MDBCol>
+                    }
                     <MDBCol className="border">
                     <MDBTypography>Total</MDBTypography>
-                    <MDBInput  type="number" disabled />
+                    <MDBInput disabled value={grade4?.performancetaskTotal?.toFixed(2)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>PS</MDBTypography>
-                    <MDBInput  type="number" disabled />
+                    <MDBInput disabled  type="number" value={grade4?.performancetaskPS?.toFixed(2)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>WS</MDBTypography>
-                    <MDBInput  type="number" disabled />
+                    <MDBInput disabled type="number" value={grade4?.performancetaskWS?.toFixed(2)}/>
                     </MDBCol>
-                    </MDBRow>  
-                    
                 </MDBRow>
                 
                 <MDBRow className="my-3 text-center border">
@@ -524,15 +406,23 @@ const ViewStudentsDetails: React.FC<ContainerProps> = (props) => {
                   
                     <MDBCol className="border">
                     <MDBTypography>1</MDBTypography>
-                    <MDBInput  type="number" disabled />
+                    <MDBInput  type="number" disabled value={grade4?.quarterlyassessment}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>PS</MDBTypography>
-                    <MDBInput  type="number" disabled />
+                    <MDBInput  type="number" disabled value={grade4?.quarterlyassessmentPS?.toFixed(2)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>WS</MDBTypography>
-                    <MDBInput  type="number" disabled/>
+                    <MDBInput  type="number" disabled value={grade4?.quarterlyassessmentWS?.toFixed(2)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Initial Grade</MDBTypography>
+                    <MDBInput  type="number" disabled value={grade4?.initialgrade?.toFixed(2)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Quarterly Grade</MDBTypography>
+                    <MDBInput  type="number" disabled value={grade4?.quarterlygrade?.toFixed(2)}/>
                     </MDBCol>
                 </MDBRow>
                 <br/>
@@ -558,19 +448,19 @@ const ViewStudentsDetails: React.FC<ContainerProps> = (props) => {
                         <tr>
                             <td>{data?.subject?.subjectname}</td>
                             <td>
-                                <MDBInput disabled readOnly value={grade[0]?.quarterlygrade?.toFixed(2)}/>
+                                <MDBInput disabled readOnly value={grade?.quarterlygrade?.toFixed(2)}/>
                             </td>
                             <td>
-                                <MDBInput disabled readOnly/>
+                                <MDBInput disabled readOnly value={grade2?.quarterlygrade?.toFixed(2)}/>
                             </td>
                             <td>
-                            <MDBInput disabled readOnly/>
+                            <MDBInput disabled readOnly value={grade3?.quarterlygrade?.toFixed(2)}/>
                             </td>
                             <td>
-                            <MDBInput disabled readOnly/>
+                            <MDBInput disabled readOnly value={grade4?.quarterlygrade?.toFixed(2)}/>
                             </td>
                             <td>
-                            <MDBInput disabled readOnly/>
+                            <MDBInput disabled readOnly />
                             </td>
                         </tr>
                     </MDBTableBody>

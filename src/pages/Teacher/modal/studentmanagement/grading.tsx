@@ -20,7 +20,9 @@ import { useIonToast } from '@ionic/react';
 interface ContainerProps { data:any, basicModal: boolean, onbasicModal: any }
 const GradingStudent: React.FC<ContainerProps> = (props) => {
     const [present] = useIonToast();
-    const [yands, setYandS] = useState([])
+    const [currentyear, setCurrentYear] = useState(0)
+    const [currentquarter, setCurrentQuarter] = useState("")
+
     const [writtenworks, setWrittenWorks] = useState([])
     const [writtenworkshightotal, setWrittenWorksHighTotal] = useState([])
     const [performancetask, setPerformanceTask] = useState([])
@@ -95,43 +97,14 @@ const GradingStudent: React.FC<ContainerProps> = (props) => {
     const { basicModal, data } = props
     
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_ENDPOINT_URL}grade/findone`, {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/json"
-            },
-            body: JSON.stringify({subjectid: data?.subject?._id, studentid: data?.student?._id})
-        })
+        fetch(`${import.meta.env.VITE_ENDPOINT_URL}quarter/find`)
         .then(result => result.json())
         .then(item => {
-            // console.log(quar)
-
-            const quar = item.data.length
-            console.log(quar)
-            if(quar === 0){
-                setQ1(false)
-                setQ2(true)
-                setQ3(true)
-                setQ4(true)
-            } else if (quar === 1){
-                setQ1(true)
-                setQ2(false)
-                setQ3(true)
-                setQ4(true)
-            } else if (quar === 2){
-                setQ1(true)
-                setQ2(true)
-                setQ3(false)
-                setQ4(true)
-            } else if (quar === 3){
-                setQ1(true)
-                setQ2(true)
-                setQ3(true)
-                setQ4(false)
-            } 
-            
+          console.log(item)
+          setCurrentQuarter(item.data.quarter)
+          setCurrentYear(item.data.year)
         })
-    },[data])
+    },[])
 
     useEffect(() => {
       setopenmodal(basicModal)
@@ -306,48 +279,6 @@ const GradingStudent: React.FC<ContainerProps> = (props) => {
                     <MDBCardText>Subject: {data?.subject?.subjectname}</MDBCardText>
                     </MDBCol>
                 </MDBRow>
-                {/* <br/>
-                <MDBRow>
-                    <MDBCol className="">
-                    <MDBCardText className="fw-bold">Full Grades On Subject: {data?.subject?.subjectname}</MDBCardText>
-                    </MDBCol>
-                </MDBRow>
-                <MDBRow>
-                    <MDBCol>
-                    <MDBTable className="table-bordered text-center" responsive>
-                    <MDBTableHead>
-                        <tr>
-                            <th scope='col'>Subject</th>
-                            <th scope='col'>Q1</th>
-                            <th scope='col'>Q2</th>
-                            <th scope='col'>Q3</th>
-                            <th scope='col'>Q4</th>
-                            <th scope='col'>Remarks</th>
-                        </tr>
-                    </MDBTableHead>
-                    <MDBTableBody>
-                        <tr>
-                            <td>{data?.subject?.subjectname}</td>
-                            <td>
-                                <MDBInput disabled={Q1} label="Set Grade" onChange={(e) => setGrade(e.target.value)} type="number"/>
-                            </td>
-                            <td>
-                                <MDBInput disabled={Q2} label="Set Grade" onChange={(e) => setGrade(e.target.value)} type="number"/>
-                            </td>
-                            <td>
-                            <MDBInput disabled={Q3} label="Set Grade" onChange={(e) => setGrade(e.target.value)} type="number"/>
-                            </td>
-                            <td>
-                            <MDBInput disabled={Q4} label="Set Grade" onChange={(e) => setGrade(e.target.value)} type="number"/>
-                            </td>
-                            <td>
-                            <MDBInput label="Remarks" name="remarks" type="number"/>
-                            </td>
-                        </tr>
-                    </MDBTableBody>
-                </MDBTable>
-                    </MDBCol>
-                </MDBRow> */}
                 <br/>
                 <MDBRow>
                     <MDBCol className="">
@@ -359,99 +290,99 @@ const GradingStudent: React.FC<ContainerProps> = (props) => {
                   <MDBRow className="mx-0 my-2">
                     <MDBCol className="border">
                     <MDBTypography>Highest Possible Score 1</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1hps1(e.target.value)}/>
+                    <MDBInput  disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1hps1(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Highest Possible Score 2</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1hps2(e.target.value)}/>
+                    <MDBInput  disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1hps2(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Highest Possible Score 3</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1hps3(e.target.value)}/>
+                    <MDBInput  disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1hps3(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Highest Possible Score 4</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1hps4(e.target.value)}/>
+                    <MDBInput  disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1hps4(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Highest Possible Score 5</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1hps5(e.target.value)}/>
+                    <MDBInput  disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1hps5(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Highest Possible Score 6</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1hps6(e.target.value)}/>
+                    <MDBInput  disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1hps6(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Highest Possible Score 7</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1hps7(e.target.value)}/>
+                    <MDBInput  disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1hps7(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Highest Possible Score 8</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1hps8(e.target.value)}/>
+                    <MDBInput  disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1hps8(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Highest Possible Score 9</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1hps9(e.target.value)}/>
+                    <MDBInput  disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1hps9(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Highest Possible Score 10</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1hps10(e.target.value)}/>
+                    <MDBInput  disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1hps10(e.target.value)}/>
                     </MDBCol>
                     </MDBRow>  
 
                     <MDBCol className="border">
                     <MDBTypography>1</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1b1(e.target.value)}/>
+                    <MDBInput  disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1b1(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>2</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1b2(e.target.value)}/>
+                    <MDBInput disabled={currentquarter === "Quarter 1" ? false : true}  type="number" onChange={(e: any) => setQ1b2(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>3</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1b3(e.target.value)}/>
+                    <MDBInput disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1b3(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>4</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1b4(e.target.value)}/>
+                    <MDBInput disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1b4(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>5</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1b5(e.target.value)}/>
+                    <MDBInput disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1b5(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>6</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1b6(e.target.value)}/>
+                    <MDBInput disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1b6(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>7</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1b7(e.target.value)}/>
+                    <MDBInput disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1b7(e.target.value)}/>
                     </MDBCol>
 
                     <MDBRow className="mx-0 my-2">
                     <MDBCol className="border">
                     <MDBTypography>8</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1b8(e.target.value)}/>
+                    <MDBInput disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1b8(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>9</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1b9(e.target.value)}/>
+                    <MDBInput disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1b9(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>10</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1b10(e.target.value)}/>
+                    <MDBInput disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1b10(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Total</MDBTypography>
-                    <MDBInput disabled  value={q1total.toFixed(2)}/>
+                    <MDBInput disabled  value={currentquarter === "Quarter 1" ? q1total.toFixed(2) : 0}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>PS</MDBTypography>
-                    <MDBInput disabled  type="number" value={q1ps.toFixed(2)}/>
+                    <MDBInput disabled  type="number" value={currentquarter === "Quarter 1" ? q1ps.toFixed(2) : 0}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>WS</MDBTypography>
-                    <MDBInput disabled type="number" value={q1ws.toFixed(2)}/>
+                    <MDBInput disabled type="number" value={currentquarter === "Quarter 1" ? q1ws.toFixed(2) : 0}/>
                     </MDBCol>
                     
                     </MDBRow>                    
@@ -462,99 +393,99 @@ const GradingStudent: React.FC<ContainerProps> = (props) => {
                   <MDBRow className="mx-0 my-2">
                     <MDBCol className="border">
                     <MDBTypography>Highest Possible Score 1</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1hpspt1(e.target.value)}/>
+                    <MDBInput  disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1hpspt1(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Highest Possible Score 2</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1hpspt2(e.target.value)}/>
+                    <MDBInput  disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1hpspt2(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Highest Possible Score 3</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1hpspt3(e.target.value)}/>
+                    <MDBInput  disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1hpspt3(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Highest Possible Score 4</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1hpspt4(e.target.value)}/>
+                    <MDBInput  disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1hpspt4(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Highest Possible Score 5</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1hpspt5(e.target.value)}/>
+                    <MDBInput  disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1hpspt5(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Highest Possible Score 6</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1hpspt6(e.target.value)}/>
+                    <MDBInput  disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1hpspt6(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Highest Possible Score 7</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1hpspt7(e.target.value)}/>
+                    <MDBInput  disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1hpspt7(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Highest Possible Score 8</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1hpspt8(e.target.value)}/>
+                    <MDBInput  disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1hpspt8(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Highest Possible Score 9</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1hpspt9(e.target.value)}/>
+                    <MDBInput  disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1hpspt9(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Highest Possible Score 10</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1hpspt10(e.target.value)}/>
+                    <MDBInput  disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1hpspt10(e.target.value)}/>
                     </MDBCol>
                     </MDBRow> 
 
                     <MDBCol className="border">
                     <MDBTypography>1</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1pt1(e.target.value)}/>
+                    <MDBInput disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1pt1(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>2</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1pt2(e.target.value)}/>
+                    <MDBInput disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1pt2(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>3</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1pt3(e.target.value)}/>
+                    <MDBInput disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1pt3(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>4</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1pt4(e.target.value)}/>
+                    <MDBInput disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1pt4(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>5</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1pt5(e.target.value)}/>
+                    <MDBInput disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1pt5(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>6</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1pt6(e.target.value)}/>
+                    <MDBInput disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1pt6(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>7</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1pt7(e.target.value)}/>
+                    <MDBInput disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1pt7(e.target.value)}/>
                     </MDBCol>
                     
                     <MDBRow className="mx-0 my-2">
                     <MDBCol className="border">
                     <MDBTypography>8</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1pt8(e.target.value)}/>
+                    <MDBInput disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1pt8(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>9</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1pt9(e.target.value)}/>
+                    <MDBInput disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1pt9(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>10</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1pt10(e.target.value)}/>
+                    <MDBInput disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1pt10(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Total</MDBTypography>
-                    <MDBInput  type="number" disabled value={q1pttotal.toFixed(2)}/>
+                    <MDBInput  type="number" disabled value={currentquarter === "Quarter 1" ? q1pttotal.toFixed(2): 0}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>PS</MDBTypography>
-                    <MDBInput  type="number" disabled value={q1ptps.toFixed(2)}/>
+                    <MDBInput  type="number" disabled value={currentquarter === "Quarter 1" ? q1ptps.toFixed(2): 0}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>WS</MDBTypography>
-                    <MDBInput  type="number" disabled value={q1ptws.toFixed(2)}/>
+                    <MDBInput  type="number" disabled value={currentquarter === "Quarter 1" ? q1ptws.toFixed(2): 0}/>
                     </MDBCol>
                     </MDBRow>  
                     
@@ -565,28 +496,28 @@ const GradingStudent: React.FC<ContainerProps> = (props) => {
                   <MDBRow className="mx-0 my-2">
                   <MDBCol className="border">
                     <MDBTypography>Highest Possible Score 1</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1hpsqa1(e.target.value)}/>
+                    <MDBInput disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1hpsqa1(e.target.value)}/>
                     </MDBCol>
                   </MDBRow>
                     <MDBCol className="border">
                     <MDBTypography>1</MDBTypography>
-                    <MDBInput  type="number" onChange={(e: any) => setQ1qa1(e.target.value)}/>
+                    <MDBInput disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1qa1(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>PS</MDBTypography>
-                    <MDBInput  type="number" disabled value={q1qaps.toFixed(2)}/>
+                    <MDBInput  type="number" disabled value={currentquarter === "Quarter 1" ? q1qaps.toFixed(2) : 0}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>WS</MDBTypography>
-                    <MDBInput  type="number" disabled value={q1qaws.toFixed(2)}/>
+                    <MDBInput  type="number" disabled value={currentquarter === "Quarter 1" ? q1qaws.toFixed(2) : 0}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Initial Grade</MDBTypography>
-                    <MDBInput disabled type="number" value={q1ig.toFixed(2)}/>
+                    <MDBInput disabled type="number" value={currentquarter === "Quarter 1" ? q1ig.toFixed(2): 0}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Quarterly Grade</MDBTypography>
-                    <MDBInput disabled type="number" value={q1qg.toFixed(2)}/>
+                    <MDBInput disabled type="number" value={currentquarter === "Quarter 1" ? q1qg.toFixed(2): 0}/>
                     </MDBCol>
                 </MDBRow>
 
@@ -598,119 +529,205 @@ const GradingStudent: React.FC<ContainerProps> = (props) => {
                 </MDBRow>
                 <MDBRow className="my-3 text-center border">
                   <MDBTypography>{`WRITTEN WORKS ${data?.subject?.writtenwork}%`}</MDBTypography>
+                  <MDBRow className="mx-0 my-2">
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 1</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1hps1(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 2</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1hps2(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 3</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1hps3(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 4</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1hps4(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 5</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1hps5(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 6</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1hps6(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 7</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1hps7(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 8</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1hps8(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 9</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1hps9(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 10</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1hps10(e.target.value)}/>
+                    </MDBCol>
+                    </MDBRow>  
+
                     <MDBCol className="border">
                     <MDBTypography>1</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput  disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1b1(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>2</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 2" ? false : true}  type="number" onChange={(e: any) => setQ1b2(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>3</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1b3(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>4</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1b4(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>5</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1b5(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>6</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1b6(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>7</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1b7(e.target.value)}/>
                     </MDBCol>
 
                     <MDBRow className="mx-0 my-2">
                     <MDBCol className="border">
                     <MDBTypography>8</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1b8(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>9</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1b9(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>10</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1b10(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Total</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled  value={currentquarter === "Quarter 2" ? q1total.toFixed(2) : 0}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>PS</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled  type="number" value={currentquarter === "Quarter 2" ? q1ps.toFixed(2) : 0}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>WS</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled type="number" value={currentquarter === "Quarter 2" ? q1ws.toFixed(2) : 0}/>
                     </MDBCol>
-                    </MDBRow>  
                     
+                    </MDBRow>                    
                 </MDBRow>
 
                 <MDBRow className="my-3 text-center border">
                   <MDBTypography>{`PERFORMANCE TASKS ${data?.subject?.performancetask}%`}</MDBTypography>
+                  <MDBRow className="mx-0 my-2">
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 1</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1hpspt1(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 2</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1hpspt2(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 3</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1hpspt3(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 4</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1hpspt4(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 5</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1hpspt5(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 6</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1hpspt6(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 7</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1hpspt7(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 8</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1hpspt8(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 9</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1hpspt9(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 10</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1hpspt10(e.target.value)}/>
+                    </MDBCol>
+                    </MDBRow> 
+
                     <MDBCol className="border">
                     <MDBTypography>1</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1pt1(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>2</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1pt2(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>3</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1pt3(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>4</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1pt4(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>5</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1pt5(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>6</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1pt6(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>7</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1pt7(e.target.value)}/>
                     </MDBCol>
-
-                   <MDBRow className="mx-0 my-2">
+                    
+                    <MDBRow className="mx-0 my-2">
                     <MDBCol className="border">
                     <MDBTypography>8</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1pt8(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>9</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1pt9(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>10</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1pt10(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Total</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput  type="number" disabled value={currentquarter === "Quarter 2" ? q1pttotal.toFixed(2): 0}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>PS</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput  type="number" disabled value={currentquarter === "Quarter 2" ? q1ptps.toFixed(2): 0}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>WS</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput  type="number" disabled value={currentquarter === "Quarter 2" ? q1ptws.toFixed(2): 0}/>
                     </MDBCol>
                     </MDBRow>  
                     
@@ -718,22 +735,36 @@ const GradingStudent: React.FC<ContainerProps> = (props) => {
                 
                 <MDBRow className="my-3 text-center border">
                   <MDBTypography>{`QUARTERLY ASSESSMENT ${data?.subject?.quarterlyassessment}%`}</MDBTypography>
+                  <MDBRow className="mx-0 my-2">
+                  <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 1</MDBTypography>
+                    <MDBInput disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1hpsqa1(e.target.value)}/>
+                    </MDBCol>
+                  </MDBRow>
                     <MDBCol className="border">
-                    <MDBTypography>Total</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBTypography>1</MDBTypography>
+                    <MDBInput disabled={currentquarter === "Quarter 2" ? false : true} type="number" onChange={(e: any) => setQ1qa1(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>PS</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput  type="number" disabled value={currentquarter === "Quarter 2" ? q1qaps.toFixed(2) : 0}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>WS</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput  type="number" disabled value={currentquarter === "Quarter 2" ? q1qaws.toFixed(2) : 0}/>
                     </MDBCol>
-                    
+                    <MDBCol className="border">
+                    <MDBTypography>Initial Grade</MDBTypography>
+                    <MDBInput disabled type="number" value={currentquarter === "Quarter 2" ? q1ig.toFixed(2): 0}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Quarterly Grade</MDBTypography>
+                    <MDBInput disabled type="number" value={currentquarter === "Quarter 2" ? q1qg.toFixed(2): 0}/>
+                    </MDBCol>
                 </MDBRow>
 
                 <br/>
+
                 <MDBRow>
                     <MDBCol className="">
                     <MDBCardText className="fw-bold text-center">QUARTER 3</MDBCardText>
@@ -741,119 +772,205 @@ const GradingStudent: React.FC<ContainerProps> = (props) => {
                 </MDBRow>
                 <MDBRow className="my-3 text-center border">
                   <MDBTypography>{`WRITTEN WORKS ${data?.subject?.writtenwork}%`}</MDBTypography>
+                  <MDBRow className="mx-0 my-2">
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 1</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1hps1(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 2</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1hps2(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 3</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1hps3(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 4</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1hps4(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 5</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1hps5(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 6</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1hps6(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 7</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1hps7(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 8</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1hps8(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 9</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1hps9(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 10</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1hps10(e.target.value)}/>
+                    </MDBCol>
+                    </MDBRow>  
+
                     <MDBCol className="border">
                     <MDBTypography>1</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput  disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1b1(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>2</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 3" ? false : true}  type="number" onChange={(e: any) => setQ1b2(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>3</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1b3(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>4</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1b4(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>5</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1b5(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>6</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1b6(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>7</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1b7(e.target.value)}/>
                     </MDBCol>
-                    
+
                     <MDBRow className="mx-0 my-2">
                     <MDBCol className="border">
                     <MDBTypography>8</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1b8(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>9</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1b9(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>10</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1b10(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Total</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled  value={currentquarter === "Quarter 3" ? q1total.toFixed(2) : 0}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>PS</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled  type="number" value={currentquarter === "Quarter 3" ? q1ps.toFixed(2) : 0}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>WS</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled type="number" value={currentquarter === "Quarter 3" ? q1ws.toFixed(2) : 0}/>
                     </MDBCol>
-                    </MDBRow>  
                     
+                    </MDBRow>                    
                 </MDBRow>
 
                 <MDBRow className="my-3 text-center border">
                   <MDBTypography>{`PERFORMANCE TASKS ${data?.subject?.performancetask}%`}</MDBTypography>
+                  <MDBRow className="mx-0 my-2">
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 1</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1hpspt1(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 2</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1hpspt2(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 3</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1hpspt3(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 4</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1hpspt4(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 5</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1hpspt5(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 6</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1hpspt6(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 7</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1hpspt7(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 8</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1hpspt8(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 9</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1hpspt9(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 10</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1hpspt10(e.target.value)}/>
+                    </MDBCol>
+                    </MDBRow> 
+
                     <MDBCol className="border">
                     <MDBTypography>1</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1pt1(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>2</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1pt2(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>3</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1pt3(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>4</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1pt4(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>5</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1pt5(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>6</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1pt6(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>7</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1pt7(e.target.value)}/>
                     </MDBCol>
                     
                     <MDBRow className="mx-0 my-2">
                     <MDBCol className="border">
                     <MDBTypography>8</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1pt8(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>9</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1pt9(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>10</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1pt10(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Total</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput  type="number" disabled value={currentquarter === "Quarter 3" ? q1pttotal.toFixed(2): 0}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>PS</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput  type="number" disabled value={currentquarter === "Quarter 3" ? q1ptps.toFixed(2): 0}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>WS</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput  type="number" disabled value={currentquarter === "Quarter 3" ? q1ptws.toFixed(2): 0}/>
                     </MDBCol>
                     </MDBRow>  
                     
@@ -861,19 +978,32 @@ const GradingStudent: React.FC<ContainerProps> = (props) => {
                 
                 <MDBRow className="my-3 text-center border">
                   <MDBTypography>{`QUARTERLY ASSESSMENT ${data?.subject?.quarterlyassessment}%`}</MDBTypography>
+                  <MDBRow className="mx-0 my-2">
+                  <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 1</MDBTypography>
+                    <MDBInput disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1hpsqa1(e.target.value)}/>
+                    </MDBCol>
+                  </MDBRow>
                     <MDBCol className="border">
-                    <MDBTypography>Total</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBTypography>1</MDBTypography>
+                    <MDBInput disabled={currentquarter === "Quarter 3" ? false : true} type="number" onChange={(e: any) => setQ1qa1(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>PS</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput  type="number" disabled value={currentquarter === "Quarter 3" ? q1qaps.toFixed(2) : 0}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>WS</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput  type="number" disabled value={currentquarter === "Quarter 3" ? q1qaws.toFixed(2) : 0}/>
                     </MDBCol>
-                    
+                    <MDBCol className="border">
+                    <MDBTypography>Initial Grade</MDBTypography>
+                    <MDBInput disabled type="number" value={currentquarter === "Quarter 3" ? q1ig.toFixed(2): 0}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Quarterly Grade</MDBTypography>
+                    <MDBInput disabled type="number" value={currentquarter === "Quarter 3" ? q1qg.toFixed(2): 0}/>
+                    </MDBCol>
                 </MDBRow>
 
                 <br/>
@@ -884,119 +1014,205 @@ const GradingStudent: React.FC<ContainerProps> = (props) => {
                 </MDBRow>
                 <MDBRow className="my-3 text-center border">
                   <MDBTypography>{`WRITTEN WORKS ${data?.subject?.writtenwork}%`}</MDBTypography>
+                  <MDBRow className="mx-0 my-2">
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 1</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1hps1(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 2</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1hps2(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 3</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1hps3(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 4</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1hps4(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 5</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1hps5(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 6</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1hps6(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 7</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1hps7(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 8</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1hps8(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 9</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1hps9(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 10</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1hps10(e.target.value)}/>
+                    </MDBCol>
+                    </MDBRow>  
+
                     <MDBCol className="border">
                     <MDBTypography>1</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput  disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1b1(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>2</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 4" ? false : true}  type="number" onChange={(e: any) => setQ1b2(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>3</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1b3(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>4</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1b4(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>5</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1b5(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>6</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1b6(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>7</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1b7(e.target.value)}/>
                     </MDBCol>
 
                     <MDBRow className="mx-0 my-2">
                     <MDBCol className="border">
                     <MDBTypography>8</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1b8(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>9</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1b9(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>10</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1b10(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Total</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled  value={currentquarter === "Quarter 4" ? q1total.toFixed(2) : 0}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>PS</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled  type="number" value={currentquarter === "Quarter 4" ? q1ps.toFixed(2) : 0}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>WS</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled type="number" value={currentquarter === "Quarter 4" ? q1ws.toFixed(2) : 0}/>
                     </MDBCol>
-                    </MDBRow>  
                     
+                    </MDBRow>                    
                 </MDBRow>
 
                 <MDBRow className="my-3 text-center border">
                   <MDBTypography>{`PERFORMANCE TASKS ${data?.subject?.performancetask}%`}</MDBTypography>
+                  <MDBRow className="mx-0 my-2">
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 1</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1hpspt1(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 2</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1hpspt2(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 3</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1hpspt3(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 4</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1hpspt4(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 5</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1hpspt5(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 6</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1hpspt6(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 7</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1hpspt7(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 8</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1hpspt8(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 9</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1hpspt9(e.target.value)}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 10</MDBTypography>
+                    <MDBInput  disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1hpspt10(e.target.value)}/>
+                    </MDBCol>
+                    </MDBRow> 
+
                     <MDBCol className="border">
                     <MDBTypography>1</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1pt1(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>2</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1pt2(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>3</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1pt3(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>4</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1pt4(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>5</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1pt5(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>6</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1pt6(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>7</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1pt7(e.target.value)}/>
                     </MDBCol>
-
+                    
                     <MDBRow className="mx-0 my-2">
                     <MDBCol className="border">
                     <MDBTypography>8</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1pt8(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>9</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1pt9(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>10</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1pt10(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>Total</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput  type="number" disabled value={currentquarter === "Quarter 4" ? q1pttotal.toFixed(2): 0}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>PS</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput  type="number" disabled value={currentquarter === "Quarter 4" ? q1ptps.toFixed(2): 0}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>WS</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput  type="number" disabled value={currentquarter === "Quarter 4" ? q1ptws.toFixed(2): 0}/>
                     </MDBCol>
                     </MDBRow>  
                     
@@ -1004,20 +1220,35 @@ const GradingStudent: React.FC<ContainerProps> = (props) => {
                 
                 <MDBRow className="my-3 text-center border">
                   <MDBTypography>{`QUARTERLY ASSESSMENT ${data?.subject?.quarterlyassessment}%`}</MDBTypography>
+                  <MDBRow className="mx-0 my-2">
+                  <MDBCol className="border">
+                    <MDBTypography>Highest Possible Score 1</MDBTypography>
+                    <MDBInput disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1hpsqa1(e.target.value)}/>
+                    </MDBCol>
+                  </MDBRow>
                     <MDBCol className="border">
-                    <MDBTypography>Total</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBTypography>1</MDBTypography>
+                    <MDBInput disabled={currentquarter === "Quarter 4" ? false : true} type="number" onChange={(e: any) => setQ1qa1(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>PS</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput  type="number" disabled value={currentquarter === "Quarter 4" ? q1qaps.toFixed(2) : 0}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>WS</MDBTypography>
-                    <MDBInput  type="number"/>
+                    <MDBInput  type="number" disabled value={currentquarter === "Quarter 4" ? q1qaws.toFixed(2) : 0}/>
                     </MDBCol>
-                    
+                    <MDBCol className="border">
+                    <MDBTypography>Initial Grade</MDBTypography>
+                    <MDBInput disabled type="number" value={currentquarter === "Quarter 4" ? q1ig.toFixed(2): 0}/>
+                    </MDBCol>
+                    <MDBCol className="border">
+                    <MDBTypography>Quarterly Grade</MDBTypography>
+                    <MDBInput disabled type="number" value={currentquarter === "Quarter 4" ? q1qg.toFixed(2): 0}/>
+                    </MDBCol>
                 </MDBRow>
+
+                <br/>
             </MDBModalBody>
             <MDBModalFooter>
               <MDBBtn type="button" color='secondary' onClick={handleChange}>
