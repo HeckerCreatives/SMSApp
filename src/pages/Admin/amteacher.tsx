@@ -51,7 +51,7 @@ const AdminAccountManagementTeacher: React.FC = () => {
       .then(data => {
         if(data.message === "success"){
           present({
-            message: "Teacher Banned",
+            message: "Teacher Deleted",
             duration: 5000,
             position: "bottom",
           }).then(() => {
@@ -143,7 +143,7 @@ const AdminAccountManagementTeacher: React.FC = () => {
                           className="mx-1"
                           onClick={() => ban(data._id)}
                           >
-                          Ban
+                          Delete
                           </MDBBtn>
                       </td>
                       </tr>
