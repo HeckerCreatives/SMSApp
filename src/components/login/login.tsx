@@ -4,13 +4,23 @@ import "./login.css"
 interface ContainerProps { }
 
 const LoginComponent: React.FC<ContainerProps> = () => {
-  const auth = JSON.parse(localStorage.getItem("auth") || '{}')
-  useEffect(()=>{
-    if(auth){
-      
-      window.location.href = `/dashboard/${auth.role?.role}`
-    } 
-  },[auth])
+  const auth = JSON.parse(localStorage.getItem("auth") || '{}');
+  const [redirectToDashboard, setRedirectToDashboard] = useState(false);
+
+useEffect(() => {
+  if (auth && auth.role && auth.role.role) {
+    setRedirectToDashboard(true);
+  } else {
+    setRedirectToDashboard(false);
+  }
+}, [auth]);
+
+useEffect(() => {
+  if (redirectToDashboard) {
+    window.location.href = `/dashboard/${auth.role.role}`;
+  }
+}, [redirectToDashboard]);
+
 
   const [present] = useIonToast();
     const login = (e:any) => {

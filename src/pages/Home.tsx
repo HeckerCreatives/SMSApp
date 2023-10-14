@@ -36,7 +36,7 @@ const Dashboard: React.FC = () => {
   // const role = "Teacher"
   // const role = "Student"
   let link;
-  switch(auth.role?.role){
+  switch(auth?.role?.role){
     case 'admin':
     link = [
       {
