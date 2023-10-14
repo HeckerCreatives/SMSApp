@@ -21,7 +21,8 @@ const AdminYearAndSectionAssignedTeacher: React.FC = () => {
     fetch(`${import.meta.env.VITE_ENDPOINT_URL}classroom/find`)
     .then(result => result.json())
     .then(data => {
-      setAdviser(data.data)
+      console.log(data)
+      setAdviser(data.data.filter((data:any) => data.adviser !== null))
     })
   },[])
 
