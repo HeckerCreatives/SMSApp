@@ -38,9 +38,9 @@ const AddTeacher: React.FC<ContainerProps> = (props) => {
         },
         body: JSON.stringify(
           {
-            firstname: firstname.value,
-            middlename: middlename.value,
-            lastname: lastname.value,
+            firstname: firstname.value.toLowerCase(),
+            middlename: middlename.value.toLowerCase(),
+            lastname: lastname.value.toLowerCase(),
             contact: contact.value,
             address: address.value,
             username: username.value,
