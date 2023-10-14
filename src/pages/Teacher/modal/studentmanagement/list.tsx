@@ -19,13 +19,14 @@ import "./index.css"
 import { useIonToast } from '@ionic/react';
 interface ContainerProps { subject:any, data: any, basicModal: boolean, onbasicModal: any }
 const ViewStudentsDetails: React.FC<ContainerProps> = (props) => {
+  const GradesData = { student: "", subject: "", quarter:"", writtenworks: [], writtenworksHighestTotal: [], writtenworksTotal: 0, writtenworksPS: 0, writtenworksWS: 0, performancetask: [], performancetaskHighestTotal: [], performancetaskTotal: 0, performancetaskPS: 0, performancetaskWS: 0, quarterlyassessment: 0, quarterlyassessmentHighestTotal: 0, quarterlyassessmentPS: 0, quarterlyassessmentWS: 0, initialgrade: 0, quarterlygrade: 0}
     const [present] = useIonToast();
     const { basicModal, data, subject } = props
     const [openmodal, setopenmodal] = useState(false)
-    const [grade, setGrade] = useState<any[]>([]);
-    const [grade2, setGrade2] = useState<any[]>([]);
-    const [grade3, setGrade3] = useState<any[]>([]);
-    const [grade4, setGrade4] = useState<any[]>([]);
+    const [grade, setGrade] = useState(GradesData);
+    const [grade2, setGrade2] = useState(GradesData);
+    const [grade3, setGrade3] = useState(GradesData);
+    const [grade4, setGrade4] = useState(GradesData);
     useEffect(() => {
     setopenmodal(basicModal)
     },[basicModal])

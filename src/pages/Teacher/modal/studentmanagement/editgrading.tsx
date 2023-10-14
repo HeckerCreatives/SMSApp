@@ -128,8 +128,8 @@ const EditGradingStudent: React.FC<ContainerProps> = (props) => {
       const q1bValues = [q1b1, q1b2, q1b3, q1b4, q1b5, q1b6, q1b7, q1b8, q1b9, q1b10];
       const q1hpsValues = [q1hps1, q1hps2, q1hps3, q1hps4, q1hps5, q1hps6, q1hps7, q1hps8, q1hps9, q1hps10];
       // Filter out values that are equal to 0
-      const nonZeroValues = q1bValues.filter(value => value !== 0);
-      const nonZeroValues1 = q1hpsValues.filter(value => value !== 0);
+      const nonZeroValues : any = q1bValues.filter(value => value !== 0);
+      const nonZeroValues1 : any = q1hpsValues.filter(value => value !== 0);
       // Update the writtenworks array with the non-zero values
       setWrittenWorks(nonZeroValues);
       setWrittenWorksHighTotal(nonZeroValues1)
@@ -154,8 +154,8 @@ const EditGradingStudent: React.FC<ContainerProps> = (props) => {
       const q1ptValues = [q1pt1, q1pt2, q1pt3, q1pt4, q1pt5, q1pt6, q1pt7, q1pt8, q1pt9, q1pt10];
       const q1hpsptValues = [q1hpspt1, q1hpspt2, q1hpspt3, q1hpspt4, q1hpspt5, q1hpspt6, q1hpspt7, q1hpspt8, q1hpspt9, q1hpspt10];
       // Filter out values that are equal to 0
-      const nonZeroValues = q1ptValues.filter(value => value !== 0);
-      const nonZeroValues1 = q1hpsptValues.filter(value => value !== 0);
+      const nonZeroValues : any = q1ptValues.filter(value => value !== 0);
+      const nonZeroValues1 : any = q1hpsptValues.filter(value => value !== 0);
       // Update the writtenworks array with the non-zero values
       setPerformanceTask(nonZeroValues);
       setPerformanceTaskHighTotal(nonZeroValues1)
