@@ -12,7 +12,7 @@ const TeacherGrading: React.FC = () => {
   const [basicModal, setBasicModal] = useState(false);
   const [viewModal, setViewModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
-  const auth = JSON.parse(localStorage.getItem("auth"))
+  const auth = JSON.parse(localStorage.getItem("auth") || '{}')
   const currentYear = 2023;
   const years = Array.from({ length: 10 }, (_, index) => currentYear + index);
 

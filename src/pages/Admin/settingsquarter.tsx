@@ -3,8 +3,11 @@ import { MDBTable, MDBTableHead, MDBTableBody,MDBBtn, MDBTypography, MDBInput } 
 import { IonCardTitle, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonCard, IonCardContent, IonCol, IonGrid, IonRow, IonCardHeader, useIonToast} from '@ionic/react';
 import Breadcrumb from "../../components/breadcrumbs/breadcrumb";
 const AdminSettingsQuarter: React.FC = () => {
+  const quarterData = {
+    quarter: "", year: 0
+  }
   const [present] = useIonToast();
-  const [quarter, setQuarter] = useState("")
+  const [quarter, setQuarter] = useState(quarterData)
   const [selectyear, setSelectyear] = useState(0)
   const [ selectquarter, setSelectquarter ] = useState("")
   const currentYear = 2023;

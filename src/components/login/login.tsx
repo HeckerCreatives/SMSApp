@@ -4,7 +4,7 @@ import "./login.css"
 interface ContainerProps { }
 
 const LoginComponent: React.FC<ContainerProps> = () => {
-  const auth = JSON.parse(localStorage.getItem("auth"))
+  const auth = JSON.parse(localStorage.getItem("auth") || '{}')
   useEffect(()=>{
     if(auth){
       

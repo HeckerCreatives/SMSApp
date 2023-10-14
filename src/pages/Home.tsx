@@ -27,7 +27,7 @@ import StudentDashboard from './Student/dashboard';
 import StudentGrades from './Student/grades';
 import StudentProfile from './Student/profile';
 const Dashboard: React.FC = () => {
-  const auth = JSON.parse(localStorage.getItem("auth"))
+  const auth = JSON.parse(localStorage.getItem("auth") || '{}')
   const [didToggle, setDidToggle] = useState(
     window.innerWidth > 768 ? false : true
   );

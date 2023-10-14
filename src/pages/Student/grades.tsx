@@ -5,7 +5,7 @@ import Breadcrumb from "../../components/breadcrumbs/breadcrumb";
 const StudentGrades: React.FC = () => {
   const [mygrades, setMyGrades] = useState([])
   const [mysubjects, setMySubjects] = useState([])
-  const auth = JSON.parse(localStorage.getItem("auth"))
+  const auth = JSON.parse(localStorage.getItem("auth") || '{}')
   useEffect(()=>{
     fetch(`${import.meta.env.VITE_ENDPOINT_URL}grade/find`,{
       method: "POST",

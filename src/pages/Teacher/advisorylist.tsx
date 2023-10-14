@@ -5,13 +5,29 @@ import Breadcrumb from "../../components/breadcrumbs/breadcrumb";
 import ViewStudentsDetails from "./modal/studentmanagement/list";
 import ViewAdvisoryStudentsDetails from "./modal/studentmanagement/advisorylist";
 const TeacherAdvisoryList: React.FC = () => {
-  const [students, setStudents] = useState([])
+  const studentData = [{
+    student: {
+      yearandsection: {
+        year: 0,
+        section: ""
+      }
+    }
+  }]
+  const userStudentData = {
+    student: {
+      yearandsection: {
+        year: 0,
+        section: ""
+      }
+    }
+  }
+  const [students, setStudents] = useState(studentData)
   const [backup, setBackup] = useState([])
-  const [rowdata, setRowdata] = useState([]);
+  const [rowdata, setRowdata] = useState(userStudentData);
   const [subjectdata, setSubjectData] = useState("");
   const [basicModal, setBasicModal] = useState(false);
   const [viewModal, setViewModal] = useState(false);
-  const auth = JSON.parse(localStorage.getItem("auth"))
+  const auth = JSON.parse(localStorage.getItem("auth") || '{}')
   const currentYear = 2023;
   const years = Array.from({ length: 10 }, (_, index) => currentYear + index);
 

@@ -12,7 +12,7 @@ const TeacherAdvisoryGrading: React.FC = () => {
   const [basicModal, setBasicModal] = useState(false);
   const [viewModal, setViewModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
-  const auth = JSON.parse(localStorage.getItem("auth"))
+  const auth = JSON.parse(localStorage.getItem("auth") || '{}')
   const toggleShow = (open: boolean, rowIndex: number) => {
       // Use the rowIndex to access the corresponding student data
       const rowData = students[rowIndex];
