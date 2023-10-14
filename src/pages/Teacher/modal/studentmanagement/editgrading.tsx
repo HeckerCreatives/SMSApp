@@ -346,7 +346,9 @@ const EditGradingStudent: React.FC<ContainerProps> = (props) => {
                     <MDBCol className="border">
                     
                     <MDBTypography>1</MDBTypography>
-                    <MDBInput label={grade?.writtenworks[0]}  disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1b1(e.target.value)}/>
+                    <MDBInput 
+                    // label={grade?.writtenworks[0]}
+                      disabled={currentquarter === "Quarter 1" ? false : true} type="number" onChange={(e: any) => setQ1b1(e.target.value)}/>
                     </MDBCol>
                     <MDBCol className="border">
                     <MDBTypography>2</MDBTypography>

@@ -32,7 +32,6 @@ const AdvisoryGradingStudent: React.FC<ContainerProps> = (props) => {
     const { basicModal, data } = props
     
     useEffect(() => {
-        console.log(data)
         fetch(`${import.meta.env.VITE_ENDPOINT_URL}grade/findone`, {
             method: "POST",
             headers: {

@@ -20,8 +20,8 @@ const AddList: React.FC<ContainerProps> = (props) => {
     const [openmodal, setopenmodal] = useState(false)
     const [yearselected, setyearselected] = useState("")
     const { basicModal } = props
-    const currentYear = new Date().getFullYear();
-    const years = Array.from({ length: 10 }, (_, index) => currentYear + index);
+    const currentYear = 2023;
+    const years = Array.from({ length: 50 }, (_, index) => currentYear + index);
     useEffect(() => {
       setopenmodal(basicModal)
       console.log(new Date().getFullYear())

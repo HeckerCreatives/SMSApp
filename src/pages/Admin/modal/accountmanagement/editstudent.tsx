@@ -23,8 +23,8 @@ const EditStudent: React.FC<ContainerProps> = ({data , basicModal, onbasicModal}
     const [yands, setYandS] = useState([])
     const [selectedYear, setSelectedYear] = useState(""); // State to store the selected year
     const [filteredSections, setFilteredSections] = useState([]); // State to store the filtered sections
-    const currentYear = new Date().getFullYear();
-    const years = Array.from({ length: 10 }, (_, index) => currentYear + index);
+    const currentYear = 2023;
+    const years = Array.from({ length: 50 }, (_, index) => currentYear + index);
     useEffect(() => {
     setopenmodal(basicModal)
     },[basicModal])
@@ -47,7 +47,7 @@ const EditStudent: React.FC<ContainerProps> = ({data , basicModal, onbasicModal}
       setSelectedYear(selectedYear);
       setSelectyands("")
       // Filter sections based on the selected year
-      const sectionsForSelectedYear = yands.filter((data: any) => data.year === selectedYear);
+      const sectionsForSelectedYear = yands.filter((data: any) => data.year.toString() === selectedYear);
       setFilteredSections(sectionsForSelectedYear);
     };
 

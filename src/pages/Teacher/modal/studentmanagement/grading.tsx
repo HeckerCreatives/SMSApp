@@ -100,7 +100,6 @@ const GradingStudent: React.FC<ContainerProps> = (props) => {
         fetch(`${import.meta.env.VITE_ENDPOINT_URL}quarter/find`)
         .then(result => result.json())
         .then(item => {
-          console.log(item)
           setCurrentQuarter(item.data.quarter)
           setCurrentYear(item.data.year)
         })

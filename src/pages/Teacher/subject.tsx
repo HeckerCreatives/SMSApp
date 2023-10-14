@@ -5,10 +5,15 @@ import Breadcrumb from "../../components/breadcrumbs/breadcrumb";
 import ViewStudentsSubject from "./modal/subject/viewstudents";
 const TeacherSubjectList: React.FC = () => {
   const [mysubject, setMySubject] = useState([])
+  const [backup, setBackup] = useState([])
   const [rowdata, setRowdata] = useState([]);
   const [basicModal, setBasicModal] = useState(false);
   const [viewModal, setViewModal] = useState(false);
+  // const [selectedYear, setSelectedYear] = useState("");
   const auth = JSON.parse(localStorage.getItem("auth"))
+  const currentYear = 2023;
+  const years = Array.from({ length: 10 }, (_, index) => currentYear + index);
+
   const toggleShow = (open: boolean, data: any) => {
     setViewModal(open)
     setRowdata(data)
@@ -27,9 +32,21 @@ const TeacherSubjectList: React.FC = () => {
       
       if(data.message === "success"){
         setMySubject(data.data)
+        setBackup(data.data)
       }
     })
   },[])
+
+  const handleSelectYear = (e: any) => {
+    const selectedYear = e.target.value;
+    if(selectedYear && selectedYear !== ""){
+      setMySubject(
+        backup.filter((e:any) => e.yearandsection.year.toString() === selectedYear)
+      )
+    } else {
+      setMySubject(backup)
+    }
+  };
 
     return(
     <IonPage>
@@ -52,10 +69,14 @@ const TeacherSubjectList: React.FC = () => {
             <div className="h4 d-flex justify-content-between">
             
             <div className="d-flex align-items-center justify-content-center ms-3">
-            <select name="fruits" className="bg-transparent text-dark">
-              <option value="apple">Apple</option>
-              <option value="banana">Banana</option>
-              <option value="cherry">Cherry</option>
+
+            <select className="bg-transparent text-dark" onChange={handleSelectYear}>
+                <option selected value="">All</option>
+                  {years.map((year, index) => (
+                    <option key={`year${index}`} value={year}>
+                      {year}
+                    </option>
+                  ))}
             </select>
 
             </div>

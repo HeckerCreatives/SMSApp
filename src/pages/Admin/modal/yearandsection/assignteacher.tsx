@@ -25,8 +25,8 @@ const AssignAdviser: React.FC<ContainerProps> = (props) => {
     const { basicModal } = props
     const [selectedYear, setSelectedYear] = useState(""); // State to store the selected year
     const [filteredSections, setFilteredSections] = useState([]); // State to store the filtered sections
-    const currentYear = new Date().getFullYear();
-    const years = Array.from({ length: 10 }, (_, index) => currentYear + index);
+    const currentYear = 2023;
+    const years = Array.from({ length: 50 }, (_, index) => currentYear + index);
     useEffect(() => {
       setopenmodal(basicModal)
     },[basicModal,selectedYear,selectyands])
@@ -35,34 +35,7 @@ const AssignAdviser: React.FC<ContainerProps> = (props) => {
       props.onbasicModal(false)
     }
 
-    // Function to handle year selection
-    const handleSelectYear = (e: any) => {
-      const selectedYear = e.target.value;
-      setSelectedYear(selectedYear);
-      setSelectyands("")
-      // Filter sections based on the selected year
-      const sectionsForSelectedYear = yands.filter((data: any) => data.year === selectedYear);
-      setFilteredSections(sectionsForSelectedYear);
-    };
-
-    // Function to handle section selection
-    const handleSelectSection = (e: any) => {
-      // Handle section selection here
-      const selectedSectionId = e.target.value;
-      
-      setSelectyands(selectedSectionId)
-      // Do something with selectedSectionId
-    };
-
-    const handleSelectAdviser = (e: any) => {
-        const selectedValue = e.target.value
-        if(selectedValue !== ""){
-            setAdviserId(selectedValue)
-        } else {
-            setAdviserId("")
-        }
-        
-    }
+    
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_ENDPOINT_URL}yearandsection/find`)
@@ -70,7 +43,8 @@ const AssignAdviser: React.FC<ContainerProps> = (props) => {
         .then(data => {
           setYandS(data.data)
         })
-    },[selectyands])
+
+    },[selectedYear])
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_ENDPOINT_URL}teacher/find`)
@@ -80,6 +54,34 @@ const AssignAdviser: React.FC<ContainerProps> = (props) => {
         })
     },[])
 
+      // Function to handle year selection
+      const handleSelectYear = (e: any) => {
+        const selectedYears = e.target.value;
+        setSelectedYear(selectedYears);
+        setSelectyands("")
+        // Filter sections based on the selected year
+        const sectionsForSelectedYear = yands.filter((data: any) => data.year.toString() === selectedYears);
+        setFilteredSections(sectionsForSelectedYear);
+      };
+
+      // Function to handle section selection
+      const handleSelectSection = (e: any) => {
+        // Handle section selection here
+        const selectedSectionId = e.target.value;
+        
+        setSelectyands(selectedSectionId)
+        // Do something with selectedSectionId
+      };
+
+      const handleSelectAdviser = (e: any) => {
+          const selectedValue = e.target.value
+          if(selectedValue !== ""){
+              setAdviserId(selectedValue)
+          } else {
+              setAdviserId("")
+          }
+          
+      }
     const addlist = (e: any) => {
       e.preventDefault();
     //   const { subject } = e.target;

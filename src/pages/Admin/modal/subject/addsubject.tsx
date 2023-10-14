@@ -22,13 +22,13 @@ const AddSubject: React.FC<ContainerProps> = (props) => {
     const [selectyands, setSelectyands] = useState("")
     const [selectshift, setSelectShift] = useState("")
     const { basicModal } = props
-    const [selectedYear, setSelectedYear] = useState(""); // State to store the selected year
+    const [selectedYears, setSelectedYear] = useState(0); // State to store the selected year
     const [filteredSections, setFilteredSections] = useState([]); // State to store the filtered sections
-    const currentYear = new Date().getFullYear();
-    const years = Array.from({ length: 10 }, (_, index) => currentYear + index);
+    const currentYear = 2023;
+    const years = Array.from({ length: 50 }, (_, index) => currentYear + index);
     useEffect(() => {
       setopenmodal(basicModal)
-    },[basicModal,selectedYear,selectyands])
+    },[basicModal,selectedYears,selectyands])
 
     const handleChange = () => {
       props.onbasicModal(false)
@@ -37,10 +37,11 @@ const AddSubject: React.FC<ContainerProps> = (props) => {
     // Function to handle year selection
     const handleSelectYear = (e: any) => {
       const selectedYear = e.target.value;
+      // console.log(selectedYear)
       setSelectedYear(selectedYear);
       setSelectyands("")
       // Filter sections based on the selected year
-      const sectionsForSelectedYear = yands.filter((data: any) => data.year === selectedYear);
+      const sectionsForSelectedYear = yands.filter((data: any) => data.year.toString() === selectedYear);
       setFilteredSections(sectionsForSelectedYear);
     };
 
@@ -63,6 +64,8 @@ const AddSubject: React.FC<ContainerProps> = (props) => {
         .then(result => result.json())
         .then(data => {
           setYandS(data.data)
+          // console.log(data.data.filter(e => e.year === 2023))
+          // console.log(selectedYears)
         })
     },[])
 
@@ -147,7 +150,7 @@ const AddSubject: React.FC<ContainerProps> = (props) => {
               <MDBInput name="quarterlyassessment" type="number"/> 
               <MDBCardText>Section:</MDBCardText>
                 <select onChange={(e) => handleSelectSection(e)} className="bg-transparent text-dark p-1">
-                <option selected={selectyands === "" ? true : false}>Please Select</option>
+                <option selected>Please Select</option>
                   {
                   filteredSections.map((data: any, i) => (
                     <option key={`section-${i}`} value={data._id}>
@@ -159,10 +162,10 @@ const AddSubject: React.FC<ContainerProps> = (props) => {
                 <MDBCardText>Shift Schedule:</MDBCardText>
                 <select className="bg-transparent text-dark p-1" onChange={(e) => handleSelectShift(e)}>
                 <option disabled selected>Please Select</option>
-                  <option key={`year`} value={"AM"}>
+                  <option key={`AM`} value={"AM"}>
                       AM
                     </option>
-                    <option key={`year`} value={"PM"}>
+                    <option key={`PM`} value={"PM"}>
                       PM
                     </option>
                 </select>

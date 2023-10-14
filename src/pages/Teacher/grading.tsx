@@ -6,12 +6,16 @@ import GradingStudent from "./modal/studentmanagement/grading";
 import EditGradingStudent from "./modal/studentmanagement/editgrading";
 const TeacherGrading: React.FC = () => {
   const [students, setStudents] = useState([])
+  const [backup, setBackup] = useState([])
   const [rowdata, setRowdata] = useState([]);
   const [subjectdata, setSubjectData] = useState("");
   const [basicModal, setBasicModal] = useState(false);
   const [viewModal, setViewModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const auth = JSON.parse(localStorage.getItem("auth"))
+  const currentYear = 2023;
+  const years = Array.from({ length: 10 }, (_, index) => currentYear + index);
+
   const toggleShow = (open: boolean, rowIndex: number) => {
       // Use the rowIndex to access the corresponding student data
       const rowData = students[rowIndex];
@@ -41,9 +45,21 @@ const TeacherGrading: React.FC = () => {
     .then(data => {
         if(data.message === "success"){
           setStudents(data.data.filter((d:any) => d !== null))
+          setBackup(data.data.filter((d:any) => d !== null))
         }
     })
   },[])
+
+  const handleSelectYear = (e: any) => {
+    const selectedYear = e.target.value;
+    if(selectedYear && selectedYear !== ""){
+      setStudents(
+        backup.filter((e:any) =>  e.student.yearandsection.year.toString() === selectedYear)
+      )
+    } else {
+      setStudents(backup)
+    }
+  };
 
     return(
     <IonPage>
@@ -66,10 +82,13 @@ const TeacherGrading: React.FC = () => {
             <div className="h4 d-flex justify-content-between">
             
             <div className="d-flex align-items-center justify-content-center ms-3">
-            <select name="fruits" className="bg-transparent text-dark">
-              <option value="apple">Apple</option>
-              <option value="banana">Banana</option>
-              <option value="cherry">Cherry</option>
+            <select className="bg-transparent text-dark" onChange={handleSelectYear}>
+                <option selected value="">All</option>
+                  {years.map((year, index) => (
+                    <option key={`year${index}`} value={year}>
+                      {year}
+                    </option>
+                  ))}
             </select>
 
             </div>
